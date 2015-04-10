@@ -3,16 +3,16 @@ o({})
 
 ***
 
-Maker
+Atom
 ----------
 
-Maker is a simple and powerful OO application toolkit for Javascript.
+Atom is a simple and powerful OO application toolkit for Javascript.
 
-The central design goal of Maker is to provide a delcarative mechanism for defining classes, objects (instances of classes), and configurable command-line programs. 
+The central design goal of Atom is to provide a delcarative mechanism for defining classes, objects (instances of classes), and configurable command-line programs. 
 
-Maker supports both the _classical_ and _prototype_ patterns of implementing OO in a simple and unified manner. In addition, Maker is a Depedency Injection framework that allows for the creation of highly configurable re-usable software components and applications. 
+Atom supports both the _classical_ and _prototype_ patterns of implementing OO in a simple and unified manner. In addition, Atom is a Depedency Injection framework that allows for the creation of highly configurable re-usable software components and applications. 
 
-In particular, Maker provides mechanisms for:
+In particular, Atom provides mechanisms for:
 
 * Defining objects and classes
 * Defining re-usable software components and managing their lifecycle
@@ -21,22 +21,22 @@ In particular, Maker provides mechanisms for:
 * Managing application-level configuration
 * Configuring and managing application logging
 
-Installing Maker
+Installing Atom
 ----------
 
 Using npm 
 
 ```
 % cd <your-app>
-% npm install maker
+% npm install atom
 ```
 
 From git:
 
 ```
-% git clone git@github.com:objectlabs/maker.git
+% git clone git@github.com:objectlabs/atom.git
 % cd <your-app>
-% npm install <path-to-maker>
+% npm install <path-to-atom>
 ```
 
 To run unit tests
@@ -46,10 +46,10 @@ To run unit tests
 % node ./test/all.js
 ```
 
-Using Maker
+Using Atom
 ----------
 
-The core of Maker is comprised of four operators:
+The core of Atom is comprised of four operators:
 
 * The ```o``` operator makes objects
 * The ```oo``` operator makes classes
@@ -73,7 +73,7 @@ of:
 The empty object
 
 ```node
-var o = require('maker').o(module)
+var o = require('atom').o(module)
 
 o({})
 ```
@@ -89,7 +89,7 @@ which simply evaluates to ```{}```.
 Simple object
 
 ```node
-var o = require('maker').o(module)
+var o = require('atom').o(module)
 
 o({a: 1,
    b: 2});
@@ -99,7 +99,7 @@ o({a: 1,
 Specifying a class via a constructor ```Function``` (in the _classical_ style)
 
 ```node
-var o = require('maker').o(module)
+var o = require('atom').o(module)
 
 function Person() {
    this.name = "Some Person";
@@ -116,7 +116,7 @@ o({_type: Person,
 Specifying another object as a prototype
 
 ```node
-var o = require('maker').o(module)
+var o = require('atom').o(module)
 
 var Person = o({
    name: "Some Person",
@@ -133,7 +133,7 @@ o({_type: Person,
 Nested objects
 
 ```node
-var o = require('maker').o(module)
+var o = require('atom').o(module)
 
 o({_type: Person,
    name: "Jo Smith",
@@ -160,7 +160,7 @@ Classes defined with ```oo``` can optionally specify a constructor, which is a f
 
 Classes can define a super-class from which it extends via the ```_type``` meta property (the same way object specify which class they are an instance of when using the ```o``` operator). 
 
-If the class being defined has a super-class Maker will automatically chain constructors, calling the constructor of the super-class before calling the constructor of the class being defined.
+If the class being defined has a super-class Atom will automatically chain constructors, calling the constructor of the super-class before calling the constructor of the class being defined.
 
 ##### _super (XXX implemented -- not final)
 
@@ -169,8 +169,8 @@ You can use the ```_super``` method to call methods on your superclass. The meth
 ##### Some examples
 
 ```node
-var o = require('maker').o(module)
-var oo = require('maker').oo(module)
+var o = require('atom').o(module)
+var oo = require('atom').oo(module)
 
 var Animal = oo({
   _C: function() {
@@ -254,14 +254,14 @@ o({
 
 TBD
 
-### Creating command line programs with Maker
+### Creating command line programs with Atom
 
-Maker allows for the easy creation of command line programs with built-in argument parsing. You can use the ```_main``` method to define a top-level entry point, or "main" function, to your application. 
+Atom allows for the easy creation of command line programs with built-in argument parsing. You can use the ```_main``` method to define a top-level entry point, or "main" function, to your application. 
 
 Example:
 ```node
-var o = require('maker').o(module);
-var _o = require('maker')._o(module);
+var o = require('atom').o(module);
+var _o = require('atom')._o(module);
 
 module.exports = o({
   port: null,
@@ -308,9 +308,9 @@ Options:
    -v, --verbose   enable verbose logging  [false]
 ```
 
-The arg-parser used by Maker is ```nomnom```. For full documentation on how you specify ```cmdargs``` please see https://github.com/harthur/nomnom
+The arg-parser used by Atom is ```nomnom```. For full documentation on how you specify ```cmdargs``` please see https://github.com/harthur/nomnom
 
-### Maker and Fibers
+### Atom and Fibers
 
 TODO
 
