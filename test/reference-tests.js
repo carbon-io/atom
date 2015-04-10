@@ -1,6 +1,6 @@
-var o = require('../lib/maker').o(module);
-var oo = require('../lib/maker').oo(module);
-var _o = require('../lib/maker')._o(module);
+var o = require('../lib/atom').o(module);
+var oo = require('../lib/atom').oo(module);
+var _o = require('../lib/atom')._o(module);
 var assert = require('assert');
 
 /*******************************************************************************

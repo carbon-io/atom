@@ -1,5 +1,5 @@
-var o = require('../../lib/maker').o(module, true);
-var _o = require('../../lib/maker')._o(module)
+var o = require('../../lib/atom').o(module, true);
+var _o = require('../../lib/atom')._o(module)
 
 module.exports = o({
   _type: './Animal',

@@ -1,4 +1,4 @@
-var o = require('../../lib/maker').o(module, true)
+var o = require('../../lib/atom').o(module, true)
 
 module.exports = o({
   _type: './Animal',
