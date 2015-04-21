@@ -1,6 +1,6 @@
 var o = require('../lib/atom').o(module);
 var oo = require('../lib/atom').oo(module);
-var _o = require('../lib/atom')._o(module);
+var _o = require('bond')._o(module);
 var assert = require('assert');
 
 /*******************************************************************************
