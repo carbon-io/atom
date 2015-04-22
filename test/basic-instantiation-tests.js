@@ -83,18 +83,31 @@ assert(a4.a3 == a5.a3) // same pointer
 // testing make with targetType
 var a6 = o({
   name: "Kiki"
-}, null, Animal)
+}, Animal)
 assert(a6.isHappy === true)
 
 // test of calling constructor of oo defined class directly and having _init called
 var FunAnimal = oo({
    _type: Animal,
-  _init: function() {
-    this.isHappy = false
+  _init: function(arg1, arg2) {
+    if (arg1) {
+      this.isHappy = arg1
+      this.isSad = arg2
+    } else {
+      this.isHappy = false
+    }
   }
 })
 
 var a7 = new FunAnimal()  
 assert(a7.isHappy == false)
 assert(a7.initCalledByAnimalInit != true) // init should not automatically chain
+
+// test constructor args get passed through to _init
+var a8 = new FunAnimal(8)
+assert(a8.isHappy == 8)
+
+var a9 = o({}, FunAnimal, 88, 99)
+assert(a9.isHappy == 88)
+assert(a9.isSad == 99)
 
