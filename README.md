@@ -17,7 +17,6 @@ In particular, Atom provides mechanisms for:
 * Defining objects and classes
 * Defining re-usable software components and managing their lifecycle
 * Defining top-level commandline interfaces with easy options parsing
-* Bootstrapping synchronous-style programs with Fibers
 * Managing application-level configuration
 * Configuring and managing application logging
 
