@@ -48,12 +48,10 @@ To run unit tests
 Using Atom
 ----------
 
-The core of Atom is comprised of four operators:
+The core of Atom is comprised of two operators:
 
 * The ```o``` operator makes objects
 * The ```oo``` operator makes classes
-* The ```_o``` operator resolves components by name
-* The ```__``` operator that spawns Fibers
 
 ### The ```o``` operator
 
@@ -248,10 +246,6 @@ o({
   }
 })
 ```
-
-### The ```_o``` operator
-
-TBD
 
 ### Creating command line programs with Atom
 
