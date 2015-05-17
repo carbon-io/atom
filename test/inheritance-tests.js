@@ -105,9 +105,11 @@ assert(c2.say() === "Super: I am a fluffy - Am I happy? true")
 
 var c3 = o({
   _type: Cat,
-  name: "Muffy",
+  name: "fluffy",
   say: function() {
     return this.constructor.prototype.say.bind(this)()
   },
 })
+
+assert(c2.say() === c3.say())
 
