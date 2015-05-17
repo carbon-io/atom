@@ -63,6 +63,27 @@ assert(c.name == "Cat")
 assert(c instanceof Animal)
 assert(c instanceof Cat)
 
+// _super and _type
+c.say = function() { return "Yo" }
+assert(c._type('say')() !== c.say())
+assert(c._type('say')() !== c._super('say')())
+assert(c._type('say')() === Cat.prototype.say.call(c))
+assert(c._super('say')() === Animal.prototype.say.call(c))
+
+var cc = o({
+  _type: Cat,
+  say: function() { return "YoYo" }
+})
+
+var ccc = o({
+  _type: cc,
+  say: function() { return "YoYoYo" }
+})
+
+assert(ccc.say() === "YoYoYo")
+assert(ccc._type('say')() === "YoYo")
+
+
 assert(c2.isHappy == true)
 assert(c2.name == "fluffy")
 assert(c2 instanceof Animal)
@@ -90,4 +111,3 @@ var c3 = o({
   },
 })
 
-console.log(c3.say())
