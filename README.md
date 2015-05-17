@@ -17,7 +17,6 @@ In particular, Atom provides mechanisms for:
 * Defining objects and classes
 * Defining re-usable software components and managing their lifecycle
 * Defining top-level commandline interfaces with easy options parsing
-* Bootstrapping synchronous-style programs with Fibers
 * Managing application-level configuration
 * Configuring and managing application logging
 
@@ -49,12 +48,10 @@ To run unit tests
 Using Atom
 ----------
 
-The core of Atom is comprised of four operators:
+The core of Atom is comprised of two operators:
 
 * The ```o``` operator makes objects
 * The ```oo``` operator makes classes
-* The ```_o``` operator resolves components by name
-* The ```__``` operator that spawns Fibers
 
 ### The ```o``` operator
 
@@ -162,7 +159,7 @@ Classes can define a super-class from which it extends via the ```_type``` meta 
 
 If the class being defined has a super-class Atom will automatically chain constructors, calling the constructor of the super-class before calling the constructor of the class being defined.
 
-##### _super (XXX implemented -- not final)
+##### _super
 
 You can use the ```_super``` method to call methods on your superclass. The method takes the name of the method as a string and returns a function. 
 
@@ -250,10 +247,6 @@ o({
 })
 ```
 
-### The ```_o``` operator
-
-TBD
-
 ### Creating command line programs with Atom
 
 Atom allows for the easy creation of command line programs with built-in argument parsing. You can use the ```_main``` method to define a top-level entry point, or "main" function, to your application. 
@@ -310,13 +303,4 @@ Options:
 
 The arg-parser used by Atom is ```nomnom```. For full documentation on how you specify ```cmdargs``` please see https://github.com/harthur/nomnom
 
-### Atom and Fibers
-
-TODO
-
-### Todo
-* Document _o
-* Document Fibers
-* Revisit _super
-* 
 
