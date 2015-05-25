@@ -164,7 +164,7 @@ If the class being defined has a superclass Atom will automatically chain constr
 To delegate to a method defined in a superclass, use the following form:
 
 ```
-<SuperClass>.<method>.call(this, <args>)
+<SuperClass>.prototype.<method>.call(this, <args>)
 ```
 
 ##### Example
@@ -192,7 +192,7 @@ var Dog = oo({
   },
   
   say: function() {
-    return "woof: " + Animal.say.call(this)    // delegating to superclass
+    return "woof: " + Animal.prototype.say.call(this)    // delegating to superclass
   }
 })
 
