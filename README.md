@@ -159,9 +159,9 @@ Classes can define a super-class from which it extends via the ```_type``` meta 
 
 If the class being defined has a super-class Atom will automatically chain constructors, calling the constructor of the super-class before calling the constructor of the class being defined.
 
-##### Delegating to superclass methods
+##### Delegating to super-class methods
 
-To delegate to a method defined in a superclass, use the following form:
+To delegate to a method defined in a super-class, use the following form:
 
 ```
 <SuperClass>.<method>.call(this, <args>)
