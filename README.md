@@ -151,17 +151,17 @@ o({_type: Person,
 
 The ```oo``` operator is used to make classes. All ```oo``` expressions evaluate to a value that is a ```Function``` that can be used as a constructor. Like the ```o``` operator, the ```oo``` operator takes a single object argument. In this case the object specification is the specification for a class. The ```_type``` field can be used to specify superclass to extend and must be a ```Function``` value.
 
-##### Defining contructors and super-classes
+##### Defining contructors and superclasses
 
 Classes defined with ```oo``` can optionally specify a constructor, which is a function to be used to initialize instance properties for objects of the defined class. Constructor functions are specified via the meta property ```_C```. 
 
-Classes can define a super-class from which it extends via the ```_type``` meta property (the same way object specify which class they are an instance of when using the ```o``` operator). 
+Classes can define a superclass from which it extends via the ```_type``` meta property (the same way object specify which class they are an instance of when using the ```o``` operator). 
 
-If the class being defined has a super-class Atom will automatically chain constructors, calling the constructor of the super-class before calling the constructor of the class being defined.
+If the class being defined has a superclass Atom will automatically chain constructors, calling the constructor of the superclass before calling the constructor of the class being defined.
 
-##### Delegating to super-class methods
+##### Delegating to superclass methods
 
-To delegate to a method defined in a super-class, use the following form:
+To delegate to a method defined in a superclass, use the following form:
 
 ```
 <SuperClass>.<method>.call(this, <args>)
