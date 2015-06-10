@@ -151,19 +151,23 @@ o({_type: Person,
 
 The ```oo``` operator is used to make classes. All ```oo``` expressions evaluate to a value that is a ```Function``` that can be used as a constructor. Like the ```o``` operator, the ```oo``` operator takes a single object argument. In this case the object specification is the specification for a class. The ```_type``` field can be used to specify superclass to extend and must be a ```Function``` value.
 
-##### Defining contructors and super-classes
+##### Defining contructors and superclasses
 
 Classes defined with ```oo``` can optionally specify a constructor, which is a function to be used to initialize instance properties for objects of the defined class. Constructor functions are specified via the meta property ```_C```. 
 
-Classes can define a super-class from which it extends via the ```_type``` meta property (the same way object specify which class they are an instance of when using the ```o``` operator). 
+Classes can define a superclass from which it extends via the ```_type``` meta property (the same way object specify which class they are an instance of when using the ```o``` operator). 
 
-If the class being defined has a super-class Atom will automatically chain constructors, calling the constructor of the super-class before calling the constructor of the class being defined.
+If the class being defined has a superclass Atom will automatically chain constructors, calling the constructor of the superclass before calling the constructor of the class being defined.
 
-##### _super
+##### Delegating to superclass methods
 
-You can use the ```_super``` method to call methods on your superclass. The method takes the name of the method as a string and returns a function. 
+To delegate to a method defined in a superclass, use the following form:
 
-##### Some examples
+```
+<SuperClass>.prototype.<method>.call(this, <args>)
+```
+
+##### Example
 
 ```node
 var o = require('atom').o(module)
@@ -188,7 +192,7 @@ var Dog = oo({
   },
   
   say: function() {
-    return "woof: " + this._super('say')()    // delegating to superclass
+    return "woof: " + Animal.prototype.say.call(this)    // delegating to superclass
   }
 })
 
@@ -231,7 +235,7 @@ Object creation via the ```o``` operator follows this sequence:
 1. The ```_type``` field is evaluated. If it is a function it is then considered a constructor and a new instance of that Class is created. If it is an object that object is used as the new object's prototype. If no ```_type``` is supplied the default value of ```Object``` is used.
 1. If the class defines a constructor (via ```_C```) that constructor is called after calling the constructor of the class's ```_type``` (constructors defined by ```_C``` are automatically chained). 
 1. All field definitions in the object passed to the ```o``` operator are added to the newly created object
-1. If the object has an ```_init``` method that method is called
+1. If the object has an ```_init``` method (either directly or via its class), it is called
 1. The newly created object is returned
 
 Example using ```_init```:
