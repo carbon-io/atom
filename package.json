@@ -19,7 +19,7 @@
   "engines": { "node": ">= 0.5.2" },
   "dependencies" : {
     "nomnom": "1.8.0",
-    "bond": "git+ssh://git@github.com:carbon-io/bond.git"
+    "bond": "git+ssh://git@github.com:carbon-io/bond.git#v0.1.0"
   },
   "preferGlobal": false
 }
