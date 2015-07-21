@@ -25,7 +25,7 @@ var Cat = oo({
   },
 
   say: function() {
-    return "Super: " + this._super('say')()
+    return "Super: " + Animal.prototype.say.call(this)
   },
 
   meow: { 
@@ -63,13 +63,6 @@ assert(c.name == "Cat")
 assert(c instanceof Animal)
 assert(c instanceof Cat)
 
-// _super and _type
-c.say = function() { return "Yo" }
-assert(c._type('say')() !== c.say())
-assert(c._type('say')() !== c._super('say')())
-assert(c._type('say')() === Cat.prototype.say.call(c))
-assert(c._super('say')() === Animal.prototype.say.call(c))
-
 var cc = o({
   _type: Cat,
   say: function() { return "YoYo" }
@@ -81,8 +74,6 @@ var ccc = o({
 })
 
 assert(ccc.say() === "YoYoYo")
-assert(ccc._type('say')() === "YoYo")
-
 
 assert(c2.isHappy == true)
 assert(c2.name == "fluffy")
@@ -99,9 +90,6 @@ var sa = o({
   _type: SubAnimal
 })
 assert(sa.isHappy)
-
-// _super
-assert(c2.say() === "Super: I am a fluffy - Am I happy? true")
 
 var c3 = o({
   _type: Cat,
