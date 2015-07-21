@@ -8,7 +8,7 @@ Atom
 
 Atom is a simple and powerful OO application toolkit for Javascript.
 
-The central design goal of Atom is to provide a delcarative mechanism for defining classes, objects (instances of classes), and configurable command-line programs. 
+The central design goal of Atom is to provide a declarative mechanism for defining classes, objects (instances of classes), and configurable command-line programs. 
 
 Atom supports both the _classical_ and _prototype_ patterns of implementing OO in a simple and unified manner. In addition, Atom is a Depedency Injection framework that allows for the creation of highly configurable re-usable software components and applications. 
 
