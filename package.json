@@ -1,6 +1,6 @@
 {
   "name": "atom",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Simple object toolkit for Javascript",
   "keywords": ["atom", "atomjs"],
   "contributors": [
