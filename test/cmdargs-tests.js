@@ -465,3 +465,60 @@ try {
 finally {
   teardown()
 }
+
+// -- test default command property
+
+obj = {
+  _type: Foo,
+  cmdargs: {
+    cmd1: {
+      command: true,
+      default: true,
+      property: true,
+    },
+    cmd2: {
+      command: true,
+      property: true,
+    },
+    opt1: {
+      property: true,
+      metavar: 'FOO'
+    },
+    opt2: {
+      flag: true,
+    }
+  },
+  _handlerCalled: null,
+  _main: {
+    cmd1: function(options) {
+      this._handlerCalled = 'cmd1'
+    },
+    cmd2: function(options) {
+      this._handlerCalled = 'cmd2'
+    }
+  }
+}
+
+setup()
+
+try {
+  var foo = o(_.clone(obj, true))
+
+  process.argv = ['node', 'foo', '--opt1', 'bar', '--opt2']
+
+  var atom = new Atom()
+
+  debugger
+  atom._runMain(foo, require.main)
+  
+  assert(foo._handlerCalled === 'cmd1')  
+
+  assert('opt1' in foo)
+  assert(foo.opt1 === 'bar')
+
+  assert(!('opt2' in foo))
+}
+finally {
+  teardown()
+}
+
