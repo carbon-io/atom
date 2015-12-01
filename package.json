@@ -21,5 +21,10 @@
     "nomnom": "1.8.0",
     "bond": "git+ssh://git@github.com:carbon-io/bond.git"
   },
+  "devDependencies": {
+    "lodash": "3.x",
+    "sinon": "1.x",
+    "mockery": "1.x"
+  },
   "preferGlobal": false
 }

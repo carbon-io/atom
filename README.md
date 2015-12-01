@@ -253,7 +253,7 @@ o({
 
 ### Creating command line programs with Atom
 
-Atom allows for the easy creation of command line programs with built-in argument parsing. You can use the ```_main``` method to define a top-level entry point, or "main" function, to your application. 
+Atom allows for the easy creation of command line programs with built-in argument parsing. You can use the ```_main``` property to define a top-level entry point (or points) to your application. 
 
 Example:
 ```node
@@ -261,7 +261,6 @@ var o = require('atom').o(module);
 var _o = require('atom')._o(module);
 
 module.exports = o({
-  port: null,
   verbose: false,
   _app: null,
   
@@ -305,6 +304,99 @@ Options:
    -v, --verbose   enable verbose logging  [false]
 ```
 
-The arg-parser used by Atom is ```nomnom```. For full documentation on how you specify ```cmdargs``` please see https://github.com/harthur/nomnom
+#### Argument Parsing
 
+The arg-parser used internally by Atom is `nomnom` (please see
+https://github.com/harthur/nomnom for a full list of options and features).
+Atom supports `nomnom` commands and options with a few extra configuration
+options noted below.
+
+To specify your CLI interface, you should add a top-level property to your
+object named `cmdargs`. The object defined at `cmdargs` can contain both
+commands and options. Options specific to a command should be nested under the
+command using the `options` property (`option` is also supported). In addition
+to the `options` property, commands also support `full`, `default`, and
+`property`. `full` behaves the same for commands as it does for options,
+allowing you to alias your command with something CLI friendly (e.g.
+'start-server' rather than 'startServer'). `default` allows you to specify a
+default command. In the event that a command is not specified, the options
+provided will be parsed in the context of that command. If `property` is
+specified, then the parsed command (along with any nested options) will be
+attached to the top level object as a property (overwriting any property that
+may have previously existed).
+
+Options support the
+`property` property as well. Please note that if `property` is specified on an
+option nested within a command, that property will still be set on the top-level
+object.
+
+Regardless of whether you specify `property` on any commands or options, the
+top-level object will contain a `parsedCmdargs` property whose value will
+contain the fully parsed command line. Note that this will also be passed to
+your `_main` method should you decide to define one.
+
+#### Main
+
+There are two ways to define your program's entry point. If you do not utilize
+commands, then the recommended method is simply to define `_main` to be a
+function that will take the parsed command line as an argument.
+
+If commands are present, and it makes sense to have a separate handler
+associated with each command, you can instead define `_main` to be an object
+where the property names correspond to the command names defined in `cmdargs`.
+Atom will then jump to the appropriate handler based on the command specified.
+If no command is specified (and `default` was not specified on any command in
+`cmdargs`), Atom will jump to the function pointed to by the `default` property
+on `_main`.
+
+Example:
+```node
+var fs = require('fs')
+var o = require('atom').o(module);
+var _o = require('atom')._o(module);
+
+module.exports = o({
+  verbose: false,
+  _app: null,
+  
+  cmdargs: { // supports nomnom definitions (see https://github.com/harthur/nomnom)
+    startServer: {
+      command: true,
+      full: 'start-server',
+      default: true,
+      options: {
+        port: {
+          abbr: "p",
+          help: "port server should listen on",
+          required: false,
+          default: 8080
+      }
+    },
+    stopServer: {
+      command: true,
+      full: 'stop-server',
+    }
+    verbose: {
+      abbr: "v",
+      help: "enable verbose logging",
+      required: false,
+      default: false,
+      property: true // set this value as a field on this object when parsed as a cmdline option
+    }
+  }
+  
+  _main: {
+    startServer: function(options) {
+      this.port = options.port
+      this._app = express.createServer()
+      this._app.listen(this.port)
+      fs.writeFileSync('/tmp/server.pid', process.pid, {encoding: 'utf8'})
+    },
+    stopServer: function(options) {
+      var pid = fs.readFileSync('/tmp/server.pid', {encoding: 'utf8'})
+      process.kill(pid, 'SIGINT')
+    }
+  }
+})
+```
 
