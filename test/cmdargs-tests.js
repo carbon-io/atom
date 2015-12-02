@@ -508,7 +508,6 @@ try {
 
   var atom = new Atom()
 
-  debugger
   atom._runMain(foo, require.main)
   
   assert(foo._handlerCalled === 'cmd1')  
@@ -517,6 +516,68 @@ try {
   assert(foo.opt1 === 'bar')
 
   assert(!('opt2' in foo))
+}
+finally {
+  teardown()
+}
+
+// -- test multiple positional args
+
+obj = {
+  _type: Foo,
+  cmdargs: {
+    cmd1: {
+      command: true,
+      property: true,
+      options: {
+        cmd1opt1: {
+          position: 0,
+          property: true,
+          metavar: 'CMD1OPT1'
+        },
+        cmd1opt2: {
+          position: 1,
+          property: true,
+          metavar: 'CMD1OPT2',
+          required: false
+        }
+      }
+    },
+    cmd2: {
+      command: true,
+      property: true,
+    },
+    opt1: {
+      property: true,
+      metavar: 'FOO'
+    },
+    opt2: {
+      flag: true,
+    }
+  },
+}
+
+setup()
+
+try {
+  var foo = o(_.clone(obj, true))
+
+  process.argv = ['node', 'foo', 'cmd1', '--opt1', 'bar', '--opt2', 'posarg1', 'posarg2']
+
+  var atom = new Atom()
+
+  debugger
+  atom._runMain(foo, require.main)
+  
+  assert('opt1' in foo)
+  assert(foo.opt1 === 'bar')
+
+  assert(!('opt2' in foo))
+
+  assert('cmd1opt1' in foo)
+  assert(foo.cmd1opt1 === 'posarg1')
+  assert('cmd1opt2' in foo)
+  assert(foo.cmd1opt2 === 'posarg2')
 }
 finally {
   teardown()
