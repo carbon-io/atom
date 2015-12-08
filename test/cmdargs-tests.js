@@ -95,6 +95,7 @@ obj = {
   cmdargs: {
     foo: {
       command: true,
+      // test deprecated "options" property
       options: {
         fooo: {
           full: 'foo-foo',
@@ -112,7 +113,7 @@ obj = {
       command: true,
       property: true,
       full: 'bar-bar',
-      options: {
+      cmdargs: {
         baz: {
           flag: true,
           property: true,
@@ -192,7 +193,7 @@ obj = {
     foo: {
       command: true,
       property: true,
-      options: {
+      cmdargs: {
         fooo: {
           full: 'foo-foo',
           abbr: 'f',
@@ -250,7 +251,7 @@ obj = {
     cmd1: {
       command: true,
       property: true,
-      options: {
+      cmdargs: {
         opt1: {
           property: true,
           metavar: 'FOO'
@@ -263,7 +264,7 @@ obj = {
     cmd2: {
       command: true,
       property: true,
-      options: {
+      cmdargs: {
         opt1: {
           property: true,
           metavar: 'FOO'
@@ -529,7 +530,7 @@ obj = {
     cmd1: {
       command: true,
       property: true,
-      options: {
+      cmdargs: {
         cmd1opt1: {
           position: 0,
           property: true,
@@ -566,7 +567,6 @@ try {
 
   var atom = new Atom()
 
-  debugger
   atom._runMain(foo, require.main)
   
   assert('opt1' in foo)

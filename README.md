@@ -314,16 +314,15 @@ options noted below.
 To specify your CLI interface, you should add a top-level property to your
 object named `cmdargs`. The object defined at `cmdargs` can contain both
 commands and options. Options specific to a command should be nested under the
-command using the `options` property (`option` is also supported). In addition
-to the `options` property, commands also support `full`, `default`, and
-`property`. `full` behaves the same for commands as it does for options,
-allowing you to alias your command with something CLI friendly (e.g.
-'start-server' rather than 'startServer'). `default` allows you to specify a
-default command. In the event that a command is not specified, the options
-provided will be parsed in the context of that command. If `property` is
-specified, then the parsed command (along with any nested options) will be
-attached to the top level object as a property (overwriting any property that
-may have previously existed).
+command using the `cmdargs` property. In addition to the `cmdargs` property,
+commands also support `full`, `default`, and `property`. `full` behaves the same
+for commands as it does for options, allowing you to alias your command with
+something CLI friendly (e.g.  'start-server' rather than 'startServer').
+`default` allows you to specify a default command. In the event that a
+command is not specified, the options provided will be parsed in the context
+of that command. If `property` is specified, then the parsed command (along
+with any nested options) will be attached to the top level object as a
+property (overwriting any property that may have previously existed).
 
 Options support the
 `property` property as well. Please note that if `property` is specified on an
@@ -364,7 +363,7 @@ module.exports = o({
       command: true,
       full: 'start-server',
       default: true,
-      options: {
+      cmdargs: {
         port: {
           abbr: "p",
           help: "port server should listen on",
