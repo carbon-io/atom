@@ -40,10 +40,16 @@ var teardown = function() {
 setup()
 
 try {
+  process.env.FOOBISH = "hello"
   process.argv = ['node', 'foo', '-b', '--foo-foo', 'bar']
 
   var foo = o({
     _type: Foo,
+    environmentVariables: {
+      FOOBISH: {
+        private: true
+      }
+    },
     cmdargs: {
       foo: {
         full: 'foo-foo',
@@ -64,6 +70,9 @@ try {
   var atom = new Atom()
 
   atom._runMain(foo, require.main)
+
+  assert(!process.env.FOOBISH)
+  assert(process.__privateEnv.FOOBISH === "hello")
 
   assert(!('foo-foo' in foo.parsedCmdargs))
   assert(!('foo-foo' in foo))
