@@ -22,11 +22,11 @@
   "engines": { "node": ">= 0.5.2" },
   "dependencies" : {
     "nomnom": "1.8.0",
+    "lodash" : "4.5.x",
     "bond": "git+ssh://git@github.com:carbon-io/bond.git",
     "fiber": "git+ssh://git@github.com:carbon-io/fiber.git"
   },
   "devDependencies": {
-    "lodash": "3.x",
     "sinon": "1.x",
     "mockery": "1.x"
   },
