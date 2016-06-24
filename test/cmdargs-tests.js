@@ -531,6 +531,55 @@ finally {
   teardown()
 }
 
+// -- test positional arg
+
+obj = {
+  _type: Foo,
+  cmdargs: {
+    cmd1: {
+      command: true,
+      property: true,
+      cmdargs: {
+        cmd1opt1: {
+          position: 0,
+          property: true,
+          metavar: 'CMD1OPT1'
+        }
+      }
+    },
+    cmd2: {
+      command: true,
+      property: true,
+    },
+    opt1: {
+      property: true,
+      metavar: 'FOO'
+    },
+    opt2: {
+      flag: true,
+    }
+  },
+}
+
+setup()
+
+try {
+  var foo = o(_.clone(obj, true))
+
+  process.argv = ['node', 'foo', 'cmd1', 'posarg1']
+
+  var atom = new Atom()
+
+  atom._runMain(foo, require.main)
+  
+  assert('cmd1opt1' in foo)
+  assert(foo.cmd1opt1 === 'posarg1')
+}
+finally {
+  teardown()
+}
+
+
 // -- test multiple positional args
 
 obj = {
