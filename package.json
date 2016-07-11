@@ -1,6 +1,6 @@
 {
   "name": "atom",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "Simple object toolkit for Javascript",
   "keywords": ["atom", "atomjs"],
   "contributors": [
@@ -23,7 +23,7 @@
   "dependencies" : {
     "nomnom": "1.8.0",
     "lodash" : "4.5.x",
-    "bond": "git+ssh://git@github.com:carbon-io/bond.git#v0.1.6",
+    "bond": "git+ssh://git@github.com:carbon-io/bond.git#v0.1.7",
     "fiber": "git+ssh://git@github.com:carbon-io/fiber.git#v0.2.0"
   },
   "devDependencies": {
