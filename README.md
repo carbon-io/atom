@@ -306,10 +306,13 @@ Options:
 
 #### Signal Handling
 
-If you want to register some signal handlers, `atom` can do this for you. Simply
-add a property named `signalHandlers` to your object that defines which signals
+If you want to register any signal handlers, `atom` can do this for you. Simply
+add a property named `signalHandlers` to the object that defines which signals
 you want to catch and the handler that is responsible for handling these signals.
-
+`signalHandlers` should be an object where the keys are signal names (e.g.
+`SIGINT`) and the values are functions. If you want to use the same handler for
+multiple signals, separate the signal names in a key with whitespace (see the
+example). 
 
 Example:
 ```node
