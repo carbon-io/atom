@@ -304,6 +304,48 @@ Options:
    -v, --verbose   enable verbose logging  [false]
 ```
 
+#### Signal Handling
+
+If you want to register any signal handlers, `atom` can do this for you. Simply
+add a property named `signalHandlers` to the object that defines which signals
+you want to catch and the handler that is responsible for handling these signals.
+`signalHandlers` should be an object where the keys are signal names (e.g.
+`SIGINT`) and the values are functions. If you want to use the same handler for
+multiple signals, separate the signal names in a key with whitespace (see the
+example). 
+
+Example:
+```node
+var o = require('atom').o(module)
+
+o.main({
+  _type: Object,
+
+  _C: function() {
+    this.interval = null
+  },
+
+  signalHandlers: {
+    'SIGUSR1 \t SIGUSR2    SIGINT': function() {
+      console.log('bop')
+    },
+    'SIGHUP': function() {
+      console.log('boop')
+    },
+    'SIGTERM': function() {
+      console.log('disabling alarm')
+      clearInterval(this.interval)
+    }
+  },
+
+  _main: function() {
+    this.interval = setInterval(function () {
+      console.log('beep')
+    }, 2000)
+  }
+})
+```
+
 #### Argument Parsing
 
 The arg-parser used internally by Atom is `nomnom` (please see
