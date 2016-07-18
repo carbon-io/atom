@@ -1,6 +1,5 @@
 var assert = require('assert')
 var mockery = require('mockery')
-var nomnom = require('nomnom')
 var _ = require('lodash')
 
 var Atom, o, oo
@@ -104,8 +103,7 @@ obj = {
   cmdargs: {
     foo: {
       command: true,
-      // test deprecated "options" property
-      options: {
+      cmdargs: {
         fooo: {
           full: 'foo-foo',
           abbr: 'f',
