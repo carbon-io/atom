@@ -15,13 +15,13 @@ var setup = function() {
     useCleanCache: true
   })
 
-  mockery.registerMock('nomnom', nomnom())
-
   Atom = require('../lib/atom').Atom
   o = require('../lib/atom').o(module)
   oo = require('../lib/atom').oo(module)
 
   Foo = oo({
+    runMainInFiber: false,
+
     _main: function(options) {
       return 0
     }
@@ -163,7 +163,6 @@ try {
   process.argv = ['node', 'foo', 'foo', '--foo-foo', 'baz', '-b']
 
   var atom = new Atom()
-
   atom._runMain(foo, require.main)
 
   assert('fooo' in foo)
