@@ -111,3 +111,21 @@ var a9 = o({}, FunAnimal, 88, 99)
 assert(a9.isHappy == 88)
 assert(a9.isSad == 99)
 
+// testing _init
+
+var Foo = oo({})
+var Bar = oo({_type: Foo})
+var Baz = oo({
+  _type: Bar,
+  _C: function() {
+    this.baz = function() {
+      console.log('hi there')
+    }
+  },
+  _init: function() {
+    this.baz()
+  }
+})
+var baz = o({_type: Baz})
+assert(baz.baz == 2)
+
