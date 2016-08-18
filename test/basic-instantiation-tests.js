@@ -111,3 +111,31 @@ var a9 = o({}, FunAnimal, 88, 99)
 assert(a9.isHappy == 88)
 assert(a9.isSad == 99)
 
+// test _init suppression
+
+var Foo = oo({})
+var Bar = oo({_type: Foo})
+var Baz = oo({
+  _type: Bar,
+  _C: function() {
+    var self = this
+    this.baz = function() {
+      self.x = 1
+    }
+  },
+  _init: function() {
+    this.baz()
+  }
+})
+
+var baz = null
+assert.doesNotThrow(function() {
+  baz = o({_type: Baz})
+}, TypeError)
+assert.equal(baz.x, 1)
+
+var baz = null
+assert.doesNotThrow(function() {
+  baz = new Baz()
+}, TypeError)
+assert.equal(baz.x, 1)
