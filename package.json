@@ -2,6 +2,7 @@
   "name": "atom",
   "version": "0.2.8",
   "description": "Simple object toolkit for Javascript",
+  "license": "MIT",
   "keywords": ["atom", "atomjs"],
   "contributors": [
     "Will Shulman <will@objectlabs.com>"
@@ -23,8 +24,8 @@
   "dependencies" : {
     "nomnom": "1.8.0",
     "lodash" : "4.5.x",
-    "bond": "git+ssh://git@github.com:carbon-io/bond.git#v0.1.9",
-    "@carbon-io/fibers": "git+ssh://git@github.com:carbon-io/fibers.git#v0.3.0"
+    "bond": "git://git@github.com:carbon-io/bond.git#v0.1.9",
+    "@carbon-io/fibers": "git://git@github.com:carbon-io/fibers.git#v0.3.0"
   },
   "devDependencies": {
     "sinon": "1.x",
