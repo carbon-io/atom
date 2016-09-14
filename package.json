@@ -1,6 +1,6 @@
 {
   "name": "atom",
-  "version": "0.2.9",
+  "version": "0.2.10",
   "description": "Simple object toolkit for Javascript",
   "license": "MIT",
   "keywords": ["atom", "atomjs"],
@@ -25,7 +25,7 @@
     "nomnom": "1.8.0",
     "lodash" : "4.5.x",
     "bond": "carbon-io/bond.git#v0.1.9",
-    "@carbon-io/fibers": "carbon-io/fibers.git#v0.3.0"
+    "@carbon-io/fibers": "carbon-io/fibers.git#v0.3.2"
   },
   "devDependencies": {
     "sinon": "1.x",
