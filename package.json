@@ -1,6 +1,6 @@
 {
   "name": "atom",
-  "version": "0.2.7",
+  "version": "0.2.8",
   "description": "Simple object toolkit for Javascript",
   "keywords": ["atom", "atomjs"],
   "contributors": [
@@ -19,7 +19,7 @@
     "lib" : "./lib",
     "bin" : "./bin"
   },
-  "engines": { "node": ">= 0.5.2" },
+  "engines": { "node": ">= 4.0.0" },
   "dependencies" : {
     "nomnom": "1.8.0",
     "lodash" : "4.5.x",
@@ -29,6 +29,9 @@
   "devDependencies": {
     "sinon": "1.x",
     "mockery": "1.x"
+  },
+  "scripts": {
+    "test": "node test/all.js"
   },
   "preferGlobal": false
 }
