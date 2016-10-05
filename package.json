@@ -1,6 +1,6 @@
 {
   "name": "atom",
-  "version": "0.2.17",
+  "version": "0.2.18",
   "description": "Simple object toolkit for Javascript",
   "license": "MIT",
   "keywords": ["atom", "atomjs"],
