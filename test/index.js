@@ -22,7 +22,41 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-require('./basic-instantiation-tests');
-require('./inheritance-tests');
-require('./reference-tests');
-require('./cmdargs-tests');
+var _o = require('bond')._o(module)
+
+var makeTest = require('./util').makeTest
+
+var __ = require('@carbon-io/fibers').__(module)
+
+/**************************************************************************
+ * All tests
+ */
+var tests = makeTest({
+  /**********************************************************************
+   * name
+   */
+  name: 'AtomTests',
+
+  /**********************************************************************
+   * description
+   */
+  description: 'Atom tests',
+
+  /**********************************************************************
+   * tests
+   */
+  tests: [
+    _o('./basic-instantiation-tests'),
+    _o('./inheritance-tests'),
+    _o('./reference-tests'),
+    _o('./cmdargs-tests')
+  ]
+})
+
+module.exports = tests
+
+if (require.main == module) {
+  __(function() {
+    tests._main()
+  })
+}
