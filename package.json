@@ -28,11 +28,12 @@
     "@carbon-io/fibers": "carbon-io/fibers.git#v0.3.2"
   },
   "devDependencies": {
+    "test-tube": "carbon-io/test-tube.git#v0.1.10",
     "sinon": "1.x",
     "mockery": "1.x"
   },
   "scripts": {
-    "test": "node test/all.js"
+    "test": "node test/index.js"
   },
   "preferGlobal": false
 }
