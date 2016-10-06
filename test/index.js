@@ -49,7 +49,8 @@ var tests = makeTest({
     _o('./basic-instantiation-tests'),
     _o('./inheritance-tests'),
     _o('./reference-tests'),
-    _o('./cmdargs-tests')
+    _o('./cmdargs-tests'),
+    _o('./env-vars-tests')
   ]
 })
 
