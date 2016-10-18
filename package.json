@@ -1,6 +1,6 @@
 {
-  "name": "atom",
-  "version": "0.2.24",
+  "name": "@carbon-io/atom",
+  "version": "0.3.0",
   "description": "Simple object toolkit for Javascript",
   "license": "MIT",
   "keywords": ["atom", "atomjs"],
@@ -28,7 +28,7 @@
     "@carbon-io/fibers": "carbon-io/fibers.git#v0.3.3"
   },
   "devDependencies": {
-    "test-tube": "carbon-io/test-tube.git#v0.1.17",
+    "@carbon-io/test-tube": "carbon-io/test-tube.git#v0.2.0",
     "sinon": "1.x",
     "mockery": "1.x"
   },

@@ -1,6 +1,6 @@
 var _ = require('lodash')
 
-var testtube = require('test-tube')
+var testtube = require('@carbon-io/test-tube')
 
 var makeTest = function(test, TestClass) {
   if (_.isUndefined(TestClass)) {

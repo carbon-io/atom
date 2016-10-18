@@ -5,7 +5,7 @@ var _ = require('lodash')
 var sinon = require('sinon')
 
 var _o = require('bond')._o(module)
-var testtube = require('test-tube')
+var testtube = require('@carbon-io/test-tube')
 
 var makeTest = require('./util').makeTest
 

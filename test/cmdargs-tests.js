@@ -4,7 +4,7 @@ var util = require('util')
 var mockery = require('mockery')
 var _ = require('lodash')
 
-var testtube = require('test-tube')
+var testtube = require('@carbon-io/test-tube')
 
 var makeTest = require('./util').makeTest
 
