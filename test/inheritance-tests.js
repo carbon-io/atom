@@ -1,6 +1,6 @@
 var assert = require('assert')
 
-var _o = require('bond')._o(module)
+var _o = require('@carbon-io/bond')._o(module)
 var testtube = require('@carbon-io/test-tube')
 
 var makeTest = require('./util').makeTest

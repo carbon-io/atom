@@ -22,7 +22,7 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-var _o = require('bond')._o(module)
+var _o = require('@carbon-io/bond')._o(module)
 
 var makeTest = require('./util').makeTest
 
