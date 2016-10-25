@@ -1,8 +1,9 @@
 var assert = require('assert')
 var util = require('util')
 
-var mockery = require('mockery')
 var _ = require('lodash')
+var mockery = require('mockery')
+var sinon = require('sinon')
 
 var testtube = require('@carbon-io/test-tube')
 
@@ -71,6 +72,7 @@ var cmdArgsTests = makeTest({
         }
       }
     }
+    this.objEnvironmentVariables = {}
     this.objProperties = {}
     testtube.Test.prototype._init.call(this)
   },
@@ -91,7 +93,8 @@ var cmdArgsTests = makeTest({
       {},
       {
       _type: this.Foo,
-      cmdargs: this.objCmdArgs
+      cmdargs: this.objCmdArgs,
+      environmentVariables: this.objEnvironmentVariables
       },
       this.objProperties
     )
@@ -629,6 +632,143 @@ var cmdArgsTests = makeTest({
         assert.equal(foo.cmd1opt1, 'posarg1')
         assert('cmd1opt2' in foo)
         assert.equal(foo.cmd1opt2, 'posarg2')
+      }
+    }, CmdArgsTest),
+    makeTest({
+      name: 'SubcommandProcessEnvironmentVariablesOptOutNoError',
+      description: 'Subcommand should run without required environment variable',
+      setup: function() {
+        this.parent.objCmdArgs = {
+          cmd1: {
+            command: true,
+            property: true,
+            processEnvironmentVariables: false
+          },
+          cmd2: {
+            command: true,
+            property: true,
+            // processEnvironmentVariables: true
+          },
+          cmd3: {
+            command: true,
+            property: true,
+            processEnvironmentVariables: true
+          }
+        }
+        this.parent.objEnvironmentVariables = {
+          REQUIRED_ENV_VAR: {
+            required: true,
+            help: 'required environment variable'
+          },
+          OPTIONAL_ENV_VAR: {
+            help: 'optional environment variable'
+          }
+        }
+        this.parent.objProperties = {
+          _handlerCalled: null,
+          _main: {
+            cmd1: function (options) {
+              this._handlerCalled = 'cmd1'
+            },
+            cmd2: function (options) {
+              this._handlerCalled = 'cmd2'
+            },
+            cmd3: function (options) {
+              this._handlerCalled = 'cmd3'
+            }
+          }
+        }
+        CmdArgsTest.prototype.setup.call(this)
+      },
+      doTest: function() {
+        var foo = this.parent.o(_.clone(this.parent.obj, true))
+        var atom = new this.parent.Atom()
+        process.argv = ['node', 'foo', 'cmd1']
+        assert(_.isUndefined(process.env.REQUIRED_ENV_VAR))
+        assert(_.isUndefined(process.env.OPTIONAL_ENV_VAR))
+        atom._runMain(foo, require.main)
+      }
+    }, CmdArgsTest),
+    makeTest({
+      name: 'SubcommandProcessEnvironmentVariablesImplicitOptInNoError',
+      description: 'Subcommand should run with required environment variable',
+      doTest: function() {
+        var foo = this.parent.o(_.clone(this.parent.obj, true))
+        var atom = new this.parent.Atom()
+        process.argv = ['node', 'foo', 'cmd2']
+        process.env.REQUIRED_ENV_VAR = 'foo'
+        try {
+          assert(!_.isUndefined(process.env.REQUIRED_ENV_VAR))
+          assert(_.isUndefined(process.env.OPTIONAL_ENV_VAR))
+          atom._runMain(foo, require.main)
+        } finally {
+          delete process.env.REQUIRED_ENV_VAR
+        }
+      }
+    }, CmdArgsTest),
+    makeTest({
+      name: 'SubcommandProcessEnvironmentVariablesImplicitOptInError',
+      description: 'Subcommand should not run with required environment variable absent',
+      doTest: function() {
+        var foo = this.parent.o(_.clone(this.parent.obj, true))
+        var atom = new this.parent.Atom()
+        var sandbox = sinon.sandbox.create()
+        process.argv = ['node', 'foo', 'cmd2']
+        try {
+          assert(_.isUndefined(process.env.REQUIRED_ENV_VAR))
+          assert(_.isUndefined(process.env.OPTIONAL_ENV_VAR))
+          var subcommand = atom._processCmdargs(foo)
+          sandbox.stub(atom, '_processCmdargs', function() {
+            return subcommand
+          })
+          sandbox.stub(atom._argparser, 'print', function() {})
+          atom._runMain(foo, require.main)
+          // error printed and exit called
+          assert(atom._argparser.print.called)
+        } finally {
+          sandbox.restore()
+        }
+      }
+    }, CmdArgsTest),
+    makeTest({
+      name: 'SubcommandProcessEnvironmentVariablesExplicitOptInNoError',
+      description: 'Subcommand should run with required environment variable',
+      doTest: function() {
+        var foo = this.parent.o(_.clone(this.parent.obj, true))
+        var atom = new this.parent.Atom()
+        process.argv = ['node', 'foo', 'cmd3']
+        process.env.REQUIRED_ENV_VAR = 'foo'
+        try {
+          assert(!_.isUndefined(process.env.REQUIRED_ENV_VAR))
+          assert(_.isUndefined(process.env.OPTIONAL_ENV_VAR))
+          atom._runMain(foo, require.main)
+        } finally {
+          delete process.env.REQUIRED_ENV_VAR
+        }
+      }
+    }, CmdArgsTest),
+    makeTest({
+      name: 'SubcommandProcessEnvironmentVariablesExplicitOptInError',
+      description: 'Subcommand should not run with required environment variable absent',
+      doTest: function() {
+        var foo = this.parent.o(_.clone(this.parent.obj, true))
+        var atom = new this.parent.Atom()
+        var sandbox = sinon.sandbox.create()
+        process.argv = ['node', 'foo', 'cmd3']
+        try {
+          assert(_.isUndefined(process.env.REQUIRED_ENV_VAR))
+          assert(_.isUndefined(process.env.OPTIONAL_ENV_VAR))
+          var subcommand = atom._processCmdargs(foo)
+          sandbox.stub(atom, '_processCmdargs', function() {
+            return subcommand
+          })
+          sandbox.stub(atom._argparser, 'print', function() {})
+          atom._runMain(foo, require.main)
+          // error printed and exit called
+          assert(atom._argparser.print.called)
+        } finally {
+          sandbox.restore()
+        }
       }
     }, CmdArgsTest),
   ]
