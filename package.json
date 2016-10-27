@@ -22,10 +22,10 @@
   },
   "engines": { "node": ">= 4.0.0" },
   "dependencies" : {
-    "nomnom": "1.8.0",
     "lodash" : "4.5.x",
     "@carbon-io/bond": "carbon-io/bond.git#v0.2.2",
-    "@carbon-io/fibers": "carbon-io/fibers.git#v0.3.4"
+    "@carbon-io/fibers": "carbon-io/fibers.git#v0.3.4",
+    "@carbon-io/nomnom": "carbon-io/nomnom.git#v1.8.2"
   },
   "devDependencies": {
     "@carbon-io/test-tube": "carbon-io/test-tube.git#v0.2.4",
