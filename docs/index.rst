@@ -1,10 +1,5 @@
-o({})
-=====
-
---------------
-
 Atom
-----
+====
 
 Atom is a simple and powerful OO application toolkit for Javascript.
 
