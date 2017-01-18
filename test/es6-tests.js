@@ -1,3 +1,8 @@
+/**
+ * known limitations:
+ *  - `oo`
+ *    - you can not subclass an ES6 class
+ */
 var assert = require('assert')
 var util = require('util')
 
@@ -28,15 +33,15 @@ Es6Test.prototype.teardown = function() {
 var es6Tests = makeTest({
   name: 'es6Tests',
   description: 'es6 tests',
+  doTest: function() {
+    if (NODE_MAJOR_VERSION < 6) {
+      throw new testtube.errors.SkipTestError('NODE_MAJOR_VERSION < 6')
+    }
+  },
   tests: [
     makeTest({
       name: 'es6ClassInstantiationTest',
       description: 'es6 class instantiation test',
-      setup: function() {
-        if (NODE_MAJOR_VERSION < 6) {
-          throw new testtube.errors.SkipTestError('NODE_MAJOR_VERSION < 6')
-        }
-      },
       doTest: function() {
         class Foo {
           constructor(x, y) {
@@ -64,6 +69,30 @@ var es6Tests = makeTest({
         assert.equal(foo.y, 1)
         assert.equal(foo.incX(), 2)
         assert.equal(foo.incY(), 2)
+      }
+    }),
+    makeTest({
+      name: 'SubclassEs6ClassWithOOTest',
+      description: 'subclass es6 class with oo test',
+      doTest: function() {
+        class Foo {
+          constructor(x, y) {
+            this.x = x || 0
+            this.y = y || 0
+          }
+
+          incX() {
+            return ++this.x
+          }
+          
+          incY() {
+            return ++this.y
+          }
+        }
+        var Bar = oo({_type: Foo, _C: function() { this.z = "zed" }})
+        assert.throws(function() {
+          o({_type: Bar})
+        }, /TypeError: Class constructor Foo cannot be invoked without 'new'/)
       }
     })
   ]
