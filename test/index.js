@@ -22,11 +22,16 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+var _ = require('lodash')
+
 var _o = require('@carbon-io/bond')._o(module)
 
 var makeTest = require('./util').makeTest
+var SkipTest = require('@carbon-io/test-tube').util.SkipTest
 
 var __ = require('@carbon-io/fibers').__(module)
+
+NODE_MAJOR_VERSION = Number(process.version.match(/v(\d+)\..+/)[1])
 
 /**************************************************************************
  * All tests
@@ -51,7 +56,8 @@ var tests = makeTest({
     _o('./reference-tests'),
     _o('./cmdargs-tests'),
     _o('./env-vars-tests'),
-    _o('./es6-tests')
+    NODE_MAJOR_VERSION >= 6 ? _o('./es6-tests') : _.merge(
+      new SkipTest(), {name: 'skipEs6Tests', description: 'skip es6 tests'})
   ]
 })
 

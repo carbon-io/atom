@@ -17,8 +17,6 @@ var oo = require('../lib/atom').oo(module)
 
 var makeTest = require('./util').makeTest
 
-NODE_MAJOR_VERSION = Number(process.version.match(/v(\d+)\..+/)[1])
-
 function Es6Test() {
   testtube.Test.call(this)
 }
@@ -33,11 +31,6 @@ Es6Test.prototype.teardown = function() {
 var es6Tests = makeTest({
   name: 'es6Tests',
   description: 'es6 tests',
-  doTest: function() {
-    if (NODE_MAJOR_VERSION < 6) {
-      throw new testtube.errors.SkipTestError('NODE_MAJOR_VERSION < 6')
-    }
-  },
   tests: [
     makeTest({
       name: 'es6ClassInstantiationTest',
