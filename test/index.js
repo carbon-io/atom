@@ -66,5 +66,5 @@ module.exports = tests
 if (require.main == module) {
   __(function() {
     tests._main()
-  })
+  }, function() {/* detach */})
 }

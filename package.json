@@ -24,7 +24,7 @@
   "dependencies" : {
     "lodash" : "4.5.x",
     "@carbon-io/bond": "0.2.x",
-    "@carbon-io/fibers": "0.3.x",
+    "@carbon-io/fibers": "0.4.x",
     "@carbon-io/nomnom": "1.8.x"
   },
   "devDependencies": {
