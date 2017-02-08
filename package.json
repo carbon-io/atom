@@ -1,6 +1,6 @@
 {
   "name": "@carbon-io/atom",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "Simple object toolkit for Javascript",
   "license": "MIT",
   "keywords": ["atom", "atomjs"],
