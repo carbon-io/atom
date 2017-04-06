@@ -64,7 +64,7 @@ var tests = makeTest({
 module.exports = tests
 
 if (require.main == module) {
-  __(function() {
-    tests._main()
-  }, function() {/* detach */})
+  __.main(function() {
+    tests._main.run.call(tests)
+  })
 }
