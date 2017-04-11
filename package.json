@@ -1,20 +1,17 @@
 {
   "name": "@carbon-io/atom",
-  "version": "0.6.1",
+  "version": "0.7.2",
   "description": "Simple object toolkit for Javascript",
   "license": "MIT",
   "keywords": ["atom", "atomjs"],
   "contributors": [
-    "Will Shulman <will@objectlabs.com>"
+    "Will Shulman <will@objectlabs.com>",
+    "Greg Banks <greg@objectlabs.com>"
   ],
-  "scripts": {
-    "test": "node test/all.js"
-  },
   "repository" : {
     "type" : "git",
     "url" : "https://github.com/carbon-io/atom.git"
   },
-
   "main": "./lib/atom.js",
   "directories" : {
     "lib" : "./lib",
@@ -23,12 +20,12 @@
   "engines": { "node": ">= 4.0.0" },
   "dependencies" : {
     "lodash" : "4.5.x",
-    "@carbon-io/bond": "0.5.x",
-    "@carbon-io/fibers": "0.6.x",
+    "@carbon-io/bond": "0.6.x",
+    "@carbon-io/fibers": "0.7.x",
     "@carbon-io/nomnom": "1.8.x"
   },
   "devDependencies": {
-    "@carbon-io/test-tube": "0.5.x",
+    "@carbon-io/test-tube": "0.6.x",
     "sinon": "1.x",
     "mockery": "1.x"
   },
