@@ -1,6 +1,6 @@
 {
   "name": "@carbon-io/atom",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "Simple object toolkit for Javascript",
   "license": "MIT",
   "keywords": ["atom", "atomjs"],
@@ -25,7 +25,7 @@
     "@carbon-io/nomnom": "1.8.x"
   },
   "devDependencies": {
-    "@carbon-io/test-tube": "0.5.x",
+    "@carbon-io/test-tube": "0.6.x",
     "sinon": "1.x",
     "mockery": "1.x"
   },
