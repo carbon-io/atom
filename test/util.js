@@ -1,5 +1,6 @@
 var _ = require('lodash')
 
+var __ = require('@carbon-io/fibers').__(module)
 var testtube = require('@carbon-io/test-tube')
 
 var makeTest = function(test, TestClass) {
@@ -18,6 +19,13 @@ var makeTest = function(test, TestClass) {
   return test_
 }
 
+var runTestIfMain = function(test, mod) {
+  if (require.main == mod) {
+    test._main.run.call(test)
+  }
+}
+
 module.exports = {
-  makeTest: makeTest
+  makeTest: makeTest,
+  runTestIfMain: runTestIfMain
 }

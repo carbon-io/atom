@@ -1,9 +1,10 @@
 var assert = require('assert')
 
+var __ = require('@carbon-io/fibers').__(module)
 var _o = require('@carbon-io/bond')._o(module)
 var testtube = require('@carbon-io/test-tube')
 
-var makeTest = require('./util').makeTest
+var util= require('./util')
 
 var o = require('../lib/atom').o(module)
 var oo = require('../lib/atom').oo(module)
@@ -13,7 +14,8 @@ var oo = require('../lib/atom').oo(module)
  */
 
 
-var basicInstantiationTests = makeTest({
+__(function() {
+  module.exports = util.makeTest({
     /**********************************************************************
      * name
      */
@@ -38,7 +40,7 @@ var basicInstantiationTests = makeTest({
     teardown: function () { },
 
     tests: [
-      makeTest({
+      util.makeTest({
         name: '',
         description: '',
         doTest: function() {
@@ -64,7 +66,7 @@ var basicInstantiationTests = makeTest({
           }, Error)
         }
       }),
-      makeTest({
+      util.makeTest({
         name: '',
         description: '',
         doTest: function() {
@@ -76,7 +78,7 @@ var basicInstantiationTests = makeTest({
           }, Error)
         }
       }),
-      makeTest({
+      util.makeTest({
         name: '',
         description: '',
         doTest: function() {
@@ -89,7 +91,7 @@ var basicInstantiationTests = makeTest({
           }, Error)
         }
       }),
-      makeTest({
+      util.makeTest({
         name: '',
         description: '',
         doTest: function() {
@@ -102,7 +104,7 @@ var basicInstantiationTests = makeTest({
           assert(this.parent.instances.a2 instanceof this.parent.classes.Animal)
         }
       }),
-      makeTest({
+      util.makeTest({
         name: '',
         description: '',
         doTest: function() {
@@ -113,7 +115,7 @@ var basicInstantiationTests = makeTest({
           assert.equal(this.parent.instances.a2.classCache.a, 1)
         }
       }),
-      makeTest({
+      util.makeTest({
         name: '',
         description: '',
         doTest: function () {
@@ -145,7 +147,7 @@ var basicInstantiationTests = makeTest({
           assert.equal(this.parent.classes.Animal.prototype.classCache.a, 1)
         }
       }),
-      makeTest({
+      util.makeTest({
         name: '',
         description: '',
         doTest: function () {
@@ -165,7 +167,7 @@ var basicInstantiationTests = makeTest({
           assert.equal(this.parent.instances.a4.a3, this.parent.instances.a5.a3) // same pointer
         }
       }),
-      makeTest({
+      util.makeTest({
         name: '',
         description: '',
         doTest: function () {
@@ -179,7 +181,7 @@ var basicInstantiationTests = makeTest({
           assert.equal(this.parent.instances.a6.isHappy, true)
         }
       }),
-      makeTest({
+      util.makeTest({
         name: '',
         description: '',
         doTest: function () {
@@ -220,7 +222,7 @@ var basicInstantiationTests = makeTest({
 
         }
       }),
-      makeTest({
+      util.makeTest({
         name: 'TestBaseClassInitSuppression',
         description: 'Test that _init is not called on base class',
         doTest: function () {
@@ -254,70 +256,71 @@ var basicInstantiationTests = makeTest({
           assert.equal(baz.x, 1)
         }
       }),
-    makeTest({
-      name: 'TestBaseClassInitSuppression',
-      description: 'Test that _init is not called on base class',
-      doTest: function () {
-        var Foo = oo({
-          _C: function () {
-            this._foo = 0
-          },
+      util.makeTest({
+        name: 'TestBaseClassInitSuppression',
+        description: 'Test that _init is not called on base class',
+        doTest: function () {
+          var Foo = oo({
+            _C: function () {
+              this._foo = 0
+            },
 
-          foo: {
-            $property: {
-              get: function () {
-                return this._foo
-              },
-              set: function (val) {
-                this._foo = val
+            foo: {
+              $property: {
+                get: function () {
+                  return this._foo
+                },
+                set: function (val) {
+                  this._foo = val
+                }
               }
             }
-          }
-        })
+          })
 
-        var foo = o({
-          _type: Foo,
-          foo: 1
-        })
+          var foo = o({
+            _type: Foo,
+            foo: 1
+          })
 
-        assert.equal(foo._foo, 1)
+          assert.equal(foo._foo, 1)
 
-        // test that prototype chain is walked when checking for accessor
+          // test that prototype chain is walked when checking for accessor
 
-        var Bar = oo({
-          _type: Foo
-        })
+          var Bar = oo({
+            _type: Foo
+          })
 
-        var bar = o({
-          _type: Bar,
-          foo: 1
-        })
+          var bar = o({
+            _type: Bar,
+            foo: 1
+          })
 
-        assert.equal(bar._foo, 1)
+          assert.equal(bar._foo, 1)
 
-        // test accessor is shadowed if set method is not defined
+          // test accessor is shadowed if set method is not defined
 
-        var Baz = oo({
-          _C: function () {
-            this._baz = 0
-          },
+          var Baz = oo({
+            _C: function () {
+              this._baz = 0
+            },
 
-          baz: {
-            $property: {
-              get: function () {
-                return this._baz
+            baz: {
+              $property: {
+                get: function () {
+                  return this._baz
+                }
               }
             }
-          }
-        })
+          })
 
-        var baz = o({_type: Baz, baz: 1})
+          var baz = o({_type: Baz, baz: 1})
 
-        assert.equal(baz._baz, 0)
-        assert.equal(baz.baz, 1)
-      }
-    })
-  ]
+          assert.equal(baz._baz, 0)
+          assert.equal(baz.baz, 1)
+        }
+      })
+    ]
+  })
+
+  util.runTestIfMain(module.exports, module)
 })
-
-module.exports = basicInstantiationTests

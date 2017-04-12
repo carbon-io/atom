@@ -24,47 +24,45 @@
 
 var _ = require('lodash')
 
+var __ = require('@carbon-io/fibers').__(module)
 var _o = require('@carbon-io/bond')._o(module)
 
-var makeTest = require('./util').makeTest
+var util = require('./util')
 var SkipTest = require('@carbon-io/test-tube').util.SkipTest
 
-var __ = require('@carbon-io/fibers').__(module)
-
 NODE_MAJOR_VERSION = Number(process.version.match(/v(\d+)\..+/)[1])
+
+mod = module
 
 /**************************************************************************
  * All tests
  */
-var tests = makeTest({
-  /**********************************************************************
-   * name
-   */
-  name: 'AtomTests',
+__(function() {
+  module.exports = util.makeTest({
+    /**********************************************************************
+     * name
+     */
+    name: 'AtomTests',
 
-  /**********************************************************************
-   * description
-   */
-  description: 'Atom tests',
+    /**********************************************************************
+     * description
+     */
+    description: 'Atom tests',
 
-  /**********************************************************************
-   * tests
-   */
-  tests: [
-    _o('./basic-instantiation-tests'),
-    _o('./inheritance-tests'),
-    _o('./reference-tests'),
-    _o('./cmdargs-tests'),
-    _o('./env-vars-tests'),
-    NODE_MAJOR_VERSION >= 6 ? _o('./es6-tests') : _.merge(
-      new SkipTest(), {name: 'skipEs6Tests', description: 'skip es6 tests'})
-  ]
+    /**********************************************************************
+     * tests
+     */
+    tests: [
+      _o('./basic-instantiation-tests'),
+      _o('./inheritance-tests'),
+      _o('./reference-tests'),
+      _o('./cmdargs-tests'),
+      _o('./env-vars-tests'),
+      NODE_MAJOR_VERSION >= 6 ? _o('./es6-tests') : _.merge(
+        new SkipTest(), {name: 'skipEs6Tests', description: 'skip es6 tests'})
+    ]
+  })
+
+  util.runTestIfMain(module.exports, module)
 })
 
-module.exports = tests
-
-if (require.main == module) {
-  __.main(function() {
-    tests._main.run.call(tests)
-  })
-}
