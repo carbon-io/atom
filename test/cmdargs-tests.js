@@ -10,7 +10,6 @@ var testtube = require('@carbon-io/test-tube')
 
 var util = require('./util')
 
-debugger
 function CmdArgsTest() {
   testtube.Test.call(this)
 }
