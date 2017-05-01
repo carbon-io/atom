@@ -43,6 +43,24 @@ __(function() {
 
     tests: [
       util.makeTest({
+        name: 'BasicObjectInstantiation',
+        doTest: function() {
+          var myObj = o({})
+          assert(typeof(myObj) === 'object')
+          assert(Object.keys(myObj).length == 0)
+          
+          var myObj2 = o({_type: Object})
+          assert(typeof(myObj2) === 'object')
+          assert(Object.keys(myObj2).length == 0)
+          
+          assert.throws(function() {
+            var t = undefined
+            o({_type: t})
+          })
+        }
+      }),
+      
+      util.makeTest({
         name: '',
         description: '',
         doTest: function() {
