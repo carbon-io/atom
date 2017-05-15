@@ -1,82 +1,43 @@
+====
 Atom
 ====
 
-Atom is a simple and powerful OO application toolkit for Javascript.
+Atom is a Dependency Injection library for creating re-usable
+Javascript components and command-line programs.
 
-The central design goal of Atom is to provide a declarative mechanism
-for defining classes, objects (instances of classes), and configurable
-command-line programs.
+The central design goal of Atom is to provide a declarative mechanism 
+for defining objects (instances of classes) and command-line interfaces. 
 
-Atom supports both the *classical* and *prototype* patterns of
-implementing OO in a simple and unified manner. In addition, Atom is a
-Depedency Injection framework that allows for the creation of highly
-configurable re-usable software components and applications.
-
-In particular, Atom provides mechanisms for:
-
--  Defining objects and classes
--  Defining re-usable software components and managing their lifecycle
--  Defining top-level commandline interfaces with easy options parsing
--  Managing application-level configuration
--  Configuring and managing application logging
-
-Installing Atom
----------------
-
-Using npm
-
-.. code:: sh
-
-    % cd <your-app>
-    % npm install atom
-
-From git:
-
-.. code:: sh
-
-    % git clone git@github.com:objectlabs/atom.git
-    % cd <your-app>
-    % npm install <path-to-atom>
-
-To run unit tests
------------------
-
-.. code:: javascript
-
-    % node ./test/all.js
-
-Using Atom
-----------
-
-The core of Atom is comprised of two operators:
-
--  The ``o`` operator makes objects
--  The ``oo`` operator makes classes
-
+------------------
 The ``o`` operator
-~~~~~~~~~~~~~~~~~~
+------------------
 
-The ``o`` operator is used to make objects. The operator takes a single
-object datum argument and returns an object based on the supplied
-specification. The specification is an object that consists of:
+At the core of Atom is the ``o`` operator. The ``o`` is used to make
+objects.
+
+The ``o`` operator takes a specification of an object that defines:
 
 -  An optional ``_type`` field, whose value may be either a ``Function``
-   or (representing a class constructor) or another object.
+   (representing a class constructor) or another object.
 
 -  A series of name / value pairs specifying the properties of the
-   object
+   object.
 
-Some examples
-'''''''''''''
+The ``o`` operator can be thought of as a generic object factory you
+can use to create instances of JavaScript classes.
+   
+Creating simple objects
+***********************
 
-The empty object
+You can create simple instance of ``Object`` like this (which is the
+same as not using ``o`` at all):
 
 .. code:: javascript
 
-    var o = require('atom').o(module)
+  var o = require('carbon-io').atom.o(module)
 
-    o({})
-
+  o({})
+ 
 which is the same as
 
 .. code:: javascript
@@ -85,144 +46,161 @@ which is the same as
 
 which simply evaluates to ``{}``.
 
-Simple object
+You define properties on objects like so: 
 
-.. code:: javascript
+.. code:: javascript 
+     
+  o({a: 1, 
+     b: 2})
 
-    var o = require('atom').o(module)
+Which is the same as:
 
-    o({a: 1,
-       b: 2});
+.. code:: javascript 
+     
+  o({
+    _type: Object,
+    a: 1, 
+    b: 2
+  })
 
-Specifying a class via a constructor ``Function`` (in the *classical*
-style)
+Creating instances of arbitrary classes
+***************************************
 
-.. code:: javascript
+You can use Atom to create instances of JavaScript classes instead of
+using ``new``. Atom works with both classical class definitions (via
+constructor functions) as well as via ES6 Classes.
 
-    var o = require('atom').o(module)
+Here is an example using a classical constructor function:
 
+.. code:: javascript 
+
+    var o = require('carbon-io').atom.o(module) 
+
+    // Person class 
     function Person() {
-       this.name = "Some Person";
-       this.email = null,
-       this.age = 0;
+       this.name = "Some Person"
+       this.email = null
+       this.age = 0
     }
 
-    o({_type: Person,
-       name: "Jo Smith",
-       email: "jo@smith.com",
-       age: 35});
+    // Instance of Person 
+    o({
+      _type: Person, 
+      name: "Jo Smith", 
+      email: "jo@smith.com", 
+      age: 35 
+    })
 
-Specifying another object as a prototype
+Here is the same example using an ES6 class definition:
 
-.. code:: javascript
+.. code:: javascript 
 
-    var o = require('atom').o(module)
+    var o = require('carbon-io').atom.o(module) 
 
-    var Person = o({
-       name: "Some Person",
-       email: null,
-       age: 0
-    });
+    // Person class 
+    class Person {
+      constructor() {
+        this.name = "Some Person"
+        this.email = null 
+        this.age = 0
+      }
+    }
 
-    o({_type: Person,
-       name: "Jo Smith",
-       email: "jo@smith.com",
-       age: 35});
+    // Instance of Person 
+    o({
+      _type: Person, 
+      name: "Jo Smith", 
+      email: "jo@smith.com", 
+      age: 35 
+    })
 
 Nested objects
+**************
 
 .. code:: javascript
 
-    var o = require('atom').o(module)
+    o({
+      _type: Person,
+      name: "Jo Smith",
+      email: "jo@smith.com",
+      age: 35,
+      address = o({
+        _type: Address,
+        street: "100 Foo St.",
+        city: "San Francisco",
+        state: "CA",
+        zip: "93212"
+      })
+    })
 
-    o({_type: Person,
-       name: "Jo Smith",
-       email: "jo@smith.com",
-       age: 35,
-       address = o({
-          _type: Address
-          street: "100 Foo St.",
-          city: "San Francisco",
-          state: "CA",
-          zip: "93212"
-       })
-    });
+Specifying another object as a prototype 
+****************************************
 
-The ``oo`` operator
-~~~~~~~~~~~~~~~~~~~
+Atom can also create instances of objects that use other objects
+(instead of classes) as a the value of the ``_type`` property. 
 
-The ``oo`` operator is used to make classes. All ``oo`` expressions
-evaluate to a value that is a ``Function`` that can be used as a
-constructor. Like the ``o`` operator, the ``oo`` operator takes a single
-object argument. In this case the object specification is the
-specification for a class. The ``_type`` field can be used to specify
-superclass to extend and must be a ``Function`` value.
+.. code:: javascript 
 
-Defining contructors and superclasses
-'''''''''''''''''''''''''''''''''''''
+    var o = require('carbon-io').atom.o(module) 
 
-Classes defined with ``oo`` can optionally specify a constructor, which
-is a function to be used to initialize instance properties for objects
-of the defined class. Constructor functions are specified via the meta
-property ``_C``.
-
-Classes can define a superclass from which it extends via the ``_type``
-meta property (the same way object specify which class they are an
-instance of when using the ``o`` operator).
-
-If the class being defined has a superclass Atom will automatically
-chain constructors, calling the constructor of the superclass before
-calling the constructor of the class being defined.
-
-Delegating to superclass methods
-''''''''''''''''''''''''''''''''
-
-To delegate to a method defined in a superclass, use the following form:
-
-.. code:: sh
-
-    <SuperClass>.prototype.<method>.call(this, <args>)
-
-Example
-'''''''
-
-.. code:: javascript
-
-    var o = require('atom').o(module)
-    var oo = require('atom').oo(module)
-
-    var Animal = oo({
-      _C: function() {
-        this.name = "Some animal"
+    // Person class 
+    class Person {
+      constructor() {
+        this.name = "Some Person"
+        this.email = null 
         this.age = 0
-        this.weight = 0
-      },
-       
-      say: function() {
-        return this.name;
+      }
+    }
+
+    // Instance of Person 
+    var Jo = o({
+      _type: Person, 
+      name: "Jo Smith", 
+      email: "jo@smith.com", 
+      age: 35 
+    })
+
+    // Instance of Jo
+    var LittleJo = o({
+      _type: Jo, // Will "inherit" all the properties of Jo
+      age: 2     
+    })
+
+Defining methods
+****************
+
+You may also define functions as property values on objects defined by
+``o``. While these objects are not classes, the functions behave as
+methods and have access to ``this``.
+
+.. code:: javascript 
+
+    var o = require('carbon-io').atom.o(module) 
+
+    // Person class 
+    class Person {
+      constructor() {
+        this.name = "Some Person"
+        this.email = null 
+        this.age = 0
+      }
+    }
+
+    // Instance of Person 
+    var Jo = o({
+      _type: Person, 
+      name: "Jo Smith", 
+      email: "jo@smith.com", 
+      age: 35,
+      sayName: function() {
+        console.log(this.name)
       }
     })
 
-    var Dog = oo({
-       _type: Animal,
-       _C: function() {
-        this.name = "Some Dog"
-      },
-      
-      say: function() {
-        return "woof: " + Animal.prototype.say.call(this)    // delegating to superclass
-      }
-    })
+    Jo.sayName() // prints "Jo Smith"
 
-    var fido = o({
-       _type: Dog,
-       name: "Fido",
-       age: 3,
-       weight: 10
-    })
-
-Defining properties
-~~~~~~~~~~~~~~~~~~~
+Dynamic properties
+******************
 
 Properties can be defined as simple fieldname / value pairs
 
@@ -248,8 +226,8 @@ with Javascript's
       }
     })
 
-Object lifecycle and \_init
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Object lifecycle and _init
+**************************
 
 Object creation via the ``o`` operator follows this sequence:
 
@@ -257,31 +235,76 @@ Object creation via the ``o`` operator follows this sequence:
    considered a constructor and a new instance of that Class is created.
    If it is an object that object is used as the new object's prototype.
    If no ``_type`` is supplied the default value of ``Object`` is used.
-2. If the class defines a constructor (via ``_C``) that constructor is
-   called after calling the constructor of the class's ``_type``
-   (constructors defined by ``_C`` are automatically chained).
-3. All field definitions in the object passed to the ``o`` operator are
-   added to the newly created object
-4. If the object has an ``_init`` method (either directly or via its
-   class), it is called
-5. The newly created object is returned
+2. All field definitions in the object passed to the ``o`` operator are
+   added to the newly created object.
+3. If the object has an ``_init`` method (either directly or via its
+   class), it is called.
+4. The newly created object is returned.
 
 Example using ``_init``:
 
 .. code:: javascript
 
-    o({
-      port: 8080,
-      app: null,
-      db: null,
-      _init: function() {
-        this.app = express.createServer()
-        this.app.listen(this.port)
-      }
-    })
+  o({
+    delay: 1000,
+    _init: function() {
+      setInterval(function() {
+        console.log("Hello!")
+      }, this.delay)
+    }
+  })
 
-Creating command line programs with Atom
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-------------------
+Creating components 
+-------------------
+
+Components are simply objects bound in the Node.js module
+namespace. It is common with Atom to use the ``o`` operator to define
+the object being exported by a module:
+
+.. code:: javascript 
+          
+  var o = require('carbon-io').atom.o(module) 
+  var ScheduledJob = require('./ScheduledJob') 
+  
+  module.exports = o({
+    _type: ScheduledJob, 
+    interval: 30000, 
+    doit: function(cb) {
+      try {
+        // do some work 
+      } catch (e) {
+        cb(e) 
+      }
+      cb() 
+    }
+  })
+
+----------------------
+Referencing components 
+----------------------
+
+Components can be referenced with the name resolution operator ``_o``,
+which comes as part of Carbon.io's Bond package.
+
+``_o`` acts very much like ``require``:
+
+.. code:: javascript 
+          
+  var o = require('carbon-io').atom.o(module) 
+  
+  module.exports = o({
+
+    idGenerator: _o('./MyIdGenerator'),
+    idGenerator: _o('./MyIdGenerator'),
+    
+    
+  })
+
+
+----------------------------------------
+Creating command line programs with Atom 
+----------------------------------------
 
 Atom allows for the easy creation of command line programs with built-in
 argument parsing. You can use the ``_main`` property to define a
@@ -290,56 +313,85 @@ top-level entry point (or points) to your application.
 Example:
 
 .. code:: javascript
+          
+  var o = require('carbon-io').atom.o(module).main // Note the .main here since this is the main application 
 
-    var o = require('atom').o(module);
-    var _o = require('atom')._o(module);
+  module.exports = o({
+    verbose: false,
 
-    module.exports = o({
-      verbose: false,
-      _app: null,
+    cmdargs: {
+      sides: {
+        abbr: "s",
+        help: "The number of sides each die should have.",
+        required: false,
+        default: 6
+      },
+      num: {
+        position: 0,
+        flag: false,
+        help: "The number of dice to roll.",
+        required: false,
+        default: 1
+      },
+      verbose: {
+        abbr: "v",
+        flag: true,
+        help: "Log verbose output.",
+        required: false,
+        property: true // Will result in this.verbose having the value passed at the cmdline
+      },
+    },
       
-      cmdargs: { // supports nomnom definitions (see https://github.com/harthur/nomnom)
-        port: {
-          abbr: "p",
-          help: "port server should listen on",
-          required: false,
-          default: 8080
-        },
-        verbose: {
-          abbr: "v",
-          help: "enable verbose logging",
-          required: false,
-          default: false,
-          property: true // set this value as a field on this object when parsed as a cmdline option
-        }
+    _main: function(options) {
+      if (this.verbose) {
+        console.log("Here is the input")
+        console.log(args)
+        console.log("Ok... rolling.......")
+      }
+
+      var numDice = args.num
+      var numSides = args.sides
+      var result = []
+      for (var i = 0; i < numDice; i++) {
+        result.push(Math.floor(Math.random() * numSides + 1)) // Random integer between 1 and numSides
       }
       
-      _main: function(options) {
-        this.port = options.port
-        this._app = express.createServer()
-        this._app.listen(this.port)
-      }
-    })
+      console.log(result)
+    }
+  })
 
+Make note that here we use the ``main`` variant of the ``o`` operator
+to indicate to Atom that it should run the ``_main`` method when this
+module is invoked as the main module from Node.js. If not run as the
+main module ``_main`` will not be called, which is useful for creating
+modules that can act as both applications and components / libraries.
+  
 You can then call your program from the commandline like this:
 
 .. code:: sh
 
     % node <path-to-your-module> <options>
 
-Example:
+You can see the commandline help generated automatically by Atom using
+the ``-h`` flag:
 
 .. code:: sh
 
-    % node SimpleCmdlineApp -h
-    Usage: node SimpleCmdlineApp [options]
+  % node RollDice -h
+  Usage: node RollDice.js [num] [options]
 
-    Options:
-       -p, --port      port server should listen on [8080]
-       -v, --verbose   enable verbose logging  [false]
+  num     The number of dice to roll.
+
+  Options:
+     -s, --sides     The number of sides each die should have.  [6]
+     -v, --verbose   Log verbose output.
+
+  Environment variables: 
+    <none>
+
 
 Argument Parsing
-^^^^^^^^^^^^^^^^
+****************
 
 The arg-parser used internally by Atom is ``nomnom`` (please see
 https://github.com/harthur/nomnom for a full list of options and
@@ -368,20 +420,19 @@ property will still be set on the top-level object.
 Regardless of whether you specify ``property`` on any commands or
 options, the top-level object will contain a ``parsedCmdargs`` property
 whose value will contain the fully parsed command line. Note that this
-will also be passed to your ``_main`` method should you decide to define
-one.
+will also be passed to your ``_main`` method.
 
-Main
-^^^^
+_main
+*****
 
 There are two ways to define your program's entry point. If you do not
-utilize commands, then the recommended method is simply to define
-``_main`` to be a function that will take the parsed command line as an
-argument.
+utilize sub-commands, then the recommended method is simply to define
+``_main`` to be a function that will take the parsed command line as
+an argument.
 
-If commands are present, and it makes sense to have a separate handler
-associated with each command, you can instead define ``_main`` to be an
-object where the property names correspond to the command names defined
+If sub-commands are present, and it makes sense to have a separate handler
+associated with each sub-command, you can instead define ``_main`` to be an
+object where the property names correspond to the sub-command names defined
 in ``cmdargs``. Atom will then jump to the appropriate handler based on
 the command specified. If no command is specified (and ``default`` was
 not specified on any command in ``cmdargs``), Atom will jump to the
@@ -391,50 +442,63 @@ Example:
 
 .. code:: javascript
 
-    var fs = require('fs')
-    var o = require('atom').o(module);
-    var _o = require('atom')._o(module);
+  var http = require('http')
+  var fs = require('fs')
+  var carbon = require('carbon-io')
+  var o = carbon.atom.o(module).main
 
-    module.exports = o({
-      verbose: false,
-      _app: null,
+  module.exports = o({
+    verbose: false,
+    _app: undefined,
       
-      cmdargs: { // supports nomnom definitions (see https://github.com/harthur/nomnom)
-        startServer: {
-          command: true,
-          full: 'start-server',
-          default: true,
-          cmdargs: {
-            port: {
-              abbr: "p",
-              help: "port server should listen on",
-              required: false,
-              default: 8080
+    cmdargs: { 
+      startServer: {
+        command: true,
+        full: 'start-server',
+        default: true,
+        cmdargs: {
+          port: {
+            abbr: "p",
+            help: "port server should listen on",
+            required: false,
+            default: 8080
           }
-        },
-        stopServer: {
-          command: true,
-          full: 'stop-server',
         }
-        verbose: {
-          abbr: "v",
-          help: "enable verbose logging",
-          required: false,
-          default: false,
-          property: true // set this value as a field on this object when parsed as a cmdline option
-        }
+      },
+      stopServer: {
+        command: true,
+        full: 'stop-server',
+      },
+      verbose: {
+        abbr: "v",
+        help: "enable verbose logging",
+        required: false,
+        default: false,
+        property: true // set this value as a field on this object when parsed as a cmdline option
       }
+    },
       
-      _main: {
-        startServer: function(options) {
-          this.port = options.port
-          this._app = express.createServer()
-          this._app.listen(this.port)
-          fs.writeFileSync('/tmp/server.pid', process.pid, {encoding: 'utf8'})
-        },
-        stopServer: function(options) {
-          var pid = fs.readFileSync('/tmp/server.pid', {encoding: 'utf8'})
-          process.kill(pid, 'SIGINT')
+    _main: {
+      startServer: function(options) {
+        this.port = options.port
+        this._app = http.createServer(function(req, res) {
+          res.send("Hello")
+        })
+        this._app.listen(this.port, '127.0.0.1', function() {
+          fs.writeFileSync('/tmp/server.pid', process.pid, {encoding: 'utf8'})  
+          if (this.verbose) {
+            console.log("Server listening on port: " + this.port)
+          }
+        })      
+      },
+      stopServer: function(options) {
+        var pid = fs.readFileSync('/tmp/server.pid', {encoding: 'utf8'})
+        if (pid) {
+          if (this.verbose) {
+            console.log("Stopping server with pid: " + pid)
+          }
+          process.kill(pid, 'SIGTERM')
         }
       }
-    })
+    }
+  })
