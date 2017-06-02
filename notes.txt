@@ -1,6 +1,0 @@
-Worry about next:
-   - $property
-   - new on oo()
-   - go through maker.js and clean make right for non maker OO
-
-- cmdargs cmdOptions
