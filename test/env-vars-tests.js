@@ -23,7 +23,7 @@ inherits(EnvTest, testtube.Test)
 
 EnvTest.prototype.setup = function() {
   this.sandbox = sinon.sandbox.create()
-  this.sandbox.stub(process, 'env', _.cloneDeep(process.env))
+  this.sandbox.stub(process, 'env').value(_.cloneDeep(process.env))
 }
 
 EnvTest.prototype.teardown = function() {

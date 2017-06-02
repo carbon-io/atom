@@ -8,7 +8,6 @@ var inherits = require('util').inherits
 
 var _ = require('lodash')
 var mockery = require('mockery')
-var sinon = require('sinon')
 
 var __ = require('@carbon-io/fibers').__(module)
 var testtube = require('@carbon-io/test-tube')

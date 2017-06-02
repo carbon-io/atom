@@ -25,8 +25,9 @@
     "@carbon-io/nomnom": "1.8.x"
   },
   "devDependencies": {
+    "tmp": "0.0.x",
     "@carbon-io/test-tube": "0.6.x",
-    "sinon": "1.x",
+    "sinon": "2.x",
     "mockery": "1.x"
   },
   "scripts": {

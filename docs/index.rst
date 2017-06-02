@@ -32,36 +32,37 @@ Creating simple objects
 You can create simple instance of ``Object`` like this (which is the
 same as not using ``o`` at all):
 
-.. code:: javascript
+.. literalinclude:: code-frags/standalone-examples/instantiation/simpleInvoke.js
+    :language: javascript 
+    :lines: 2-3,4
+    :linenos:
+    :dedent: 2
 
-  var o = require('carbon-io').atom.o(module)
-
-  o({})
- 
 which is the same as
 
-.. code:: javascript
-
-    o({_type: Object})
+.. literalinclude:: code-frags/standalone-examples/instantiation/simpleInvoke.js
+    :language: javascript 
+    :lines: 2-3,6
+    :linenos:
+    :dedent: 2
 
 which simply evaluates to ``{}``.
 
 You define properties on objects like so: 
 
-.. code:: javascript 
-     
-  o({a: 1, 
-     b: 2})
+.. literalinclude:: code-frags/standalone-examples/instantiation/simpleInvoke.js
+    :language: javascript 
+    :lines: 2-3,8-11
+    :linenos:
+    :dedent: 2
 
 Which is the same as:
 
-.. code:: javascript 
-     
-  o({
-    _type: Object,
-    a: 1, 
-    b: 2
-  })
+.. literalinclude:: code-frags/standalone-examples/instantiation/simpleInvoke.js
+    :language: javascript 
+    :lines: 2-3,13-17
+    :linenos:
+    :dedent: 2
 
 Creating instances of arbitrary classes
 ***************************************
@@ -72,66 +73,28 @@ constructor functions) as well as via ES6 Classes.
 
 Here is an example using a classical constructor function:
 
-.. code:: javascript 
-
-    var o = require('carbon-io').atom.o(module) 
-
-    // Person class 
-    function Person() {
-       this.name = "Some Person"
-       this.email = null
-       this.age = 0
-    }
-
-    // Instance of Person 
-    o({
-      _type: Person, 
-      name: "Jo Smith", 
-      email: "jo@smith.com", 
-      age: 35 
-    })
+.. literalinclude:: code-frags/standalone-examples/instantiation/constructorInvoke.js
+    :language: javascript 
+    :lines: 2-17
+    :linenos:
+    :dedent: 2
 
 Here is the same example using an ES6 class definition:
 
-.. code:: javascript 
-
-    var o = require('carbon-io').atom.o(module) 
-
-    // Person class 
-    class Person {
-      constructor() {
-        this.name = "Some Person"
-        this.email = null 
-        this.age = 0
-      }
-    }
-
-    // Instance of Person 
-    o({
-      _type: Person, 
-      name: "Jo Smith", 
-      email: "jo@smith.com", 
-      age: 35 
-    })
+.. literalinclude:: code-frags/standalone-examples/instantiation/es6Invoke.js
+    :language: javascript 
+    :lines: 2-19
+    :linenos:
+    :dedent: 2
 
 Nested objects
 **************
 
-.. code:: javascript
-
-    o({
-      _type: Person,
-      name: "Jo Smith",
-      email: "jo@smith.com",
-      age: 35,
-      address = o({
-        _type: Address,
-        street: "100 Foo St.",
-        city: "San Francisco",
-        state: "CA",
-        zip: "93212"
-      })
-    })
+.. literalinclude:: code-frags/standalone-examples/instantiation/nestedObjectsField.js
+    :language: javascript 
+    :lines: 21-33
+    :linenos:
+    :dedent: 2
 
 Specifying another object as a prototype 
 ****************************************
@@ -139,32 +102,11 @@ Specifying another object as a prototype
 Atom can also create instances of objects that use other objects
 (instead of classes) as a the value of the ``_type`` property. 
 
-.. code:: javascript 
-
-    var o = require('carbon-io').atom.o(module) 
-
-    // Person class 
-    class Person {
-      constructor() {
-        this.name = "Some Person"
-        this.email = null 
-        this.age = 0
-      }
-    }
-
-    // Instance of Person 
-    var Jo = o({
-      _type: Person, 
-      name: "Jo Smith", 
-      email: "jo@smith.com", 
-      age: 35 
-    })
-
-    // Instance of Jo
-    var LittleJo = o({
-      _type: Jo, // Will "inherit" all the properties of Jo
-      age: 2     
-    })
+.. literalinclude:: code-frags/standalone-examples/instantiation/objectPrototypeInvoke.js
+    :language: javascript 
+    :lines: 2-23
+    :linenos:
+    :dedent: 2
 
 Defining methods
 ****************
@@ -173,112 +115,69 @@ You may also define functions as property values on objects defined by
 ``o``. While these objects are not classes, the functions behave as
 methods and have access to ``this``.
 
-.. code:: javascript 
-
-    var o = require('carbon-io').atom.o(module) 
-
-    // Person class 
-    class Person {
-      constructor() {
-        this.name = "Some Person"
-        this.email = null 
-        this.age = 0
-      }
-    }
-
-    // Instance of Person 
-    var Jo = o({
-      _type: Person, 
-      name: "Jo Smith", 
-      email: "jo@smith.com", 
-      age: 35,
-      sayName: function() {
-        console.log(this.name)
-      }
-    })
-
-    Jo.sayName() // prints "Jo Smith"
+.. literalinclude:: code-frags/standalone-examples/properties.js
+    :language: javascript 
+    :lines: 2-22
+    :linenos:
+    :dedent: 2
 
 Dynamic properties
 ******************
 
-Properties can be defined as simple fieldname / value pairs
+Properties can be defined as simple fieldname / value pairs:
 
-.. code:: javascript
+.. literalinclude:: code-frags/standalone-examples/properties.js
+    :language: javascript 
+    :lines: 33-35
+    :linenos:
+    :dedent: 2
 
-    o({
-      name: "John Smith"
-    })
+They can also be defined dynamically with getters and setters as you would with
+Javascript's `Object.defineProperty
+<https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty>`__.
 
-or they can be defined dynamically with getters and setters as you would
-with Javascript's
-```Object.defineProperty`` <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty>`__
-
-.. code:: javascript
-
-    o({
-      now: {
-        $property: {
-          get: function() {
-            return new Date()
-          }
-        }
-      }
-    })
+.. literalinclude:: code-frags/standalone-examples/properties.js
+    :language: javascript
+    :lines: 37-45
+    :linenos:
+    :dedent: 2
 
 Object lifecycle and _init
 **************************
 
 Object creation via the ``o`` operator follows this sequence:
 
-1. The ``_type`` field is evaluated. If it is a function it is then
-   considered a constructor and a new instance of that Class is created.
-   If it is an object that object is used as the new object's prototype.
-   If no ``_type`` is supplied the default value of ``Object`` is used.
-2. All field definitions in the object passed to the ``o`` operator are
-   added to the newly created object.
-3. If the object has an ``_init`` method (either directly or via its
-   class), it is called.
+1. The ``_type`` field is evaluated. If it is a function it is then considered a
+   constructor and a new instance of that Class is created.  If it is an object
+   that object is used as the new object's prototype.  If no ``_type`` is
+   supplied the default value of ``Object`` is used.
+2. All field definitions in the object passed to the ``o`` operator are added to
+   the newly created object.
+3. If the object has an ``_init`` method (either directly or via its class), it
+   is called.
 4. The newly created object is returned.
 
 Example using ``_init``:
 
-.. code:: javascript
-
-  o({
-    delay: 1000,
-    _init: function() {
-      setInterval(function() {
-        console.log("Hello!")
-      }, this.delay)
-    }
-  })
+.. literalinclude:: code-frags/standalone-examples/properties.js
+    :language: javascript
+    :lines: 56-63
+    :linenos:
+    :dedent: 2
 
 -------------------
 Creating components 
 -------------------
 
-Components are simply objects bound in the Node.js module
-namespace. It is common with Atom to use the ``o`` operator to define
-the object being exported by a module:
+Components are simply objects bound in the Node.js module namespace. It is
+common with Atom to use the ``o`` operator to define the object being exported
+by a module:
 
-.. code:: javascript 
-          
-  var o = require('carbon-io').atom.o(module) 
-  var ScheduledJob = require('./ScheduledJob') 
-  
-  module.exports = o({
-    _type: ScheduledJob, 
-    interval: 30000, 
-    doit: function(cb) {
-      try {
-        // do some work 
-      } catch (e) {
-        cb(e) 
-      }
-      cb() 
-    }
-  })
+.. literalinclude:: code-frags/standalone-examples/components.js
+    :language: javascript
+    :lines: 5-19
+    :linenos:
+    :dedent: 4
 
 ----------------------
 Referencing components 
@@ -289,18 +188,11 @@ which comes as part of Carbon.io's Bond package.
 
 ``_o`` acts very much like ``require``:
 
-.. code:: javascript 
-          
-  var o = require('carbon-io').atom.o(module) 
-  
-  module.exports = o({
-
-    idGenerator: _o('./MyIdGenerator'),
-    idGenerator: _o('./MyIdGenerator'),
-    
-    
-  })
-
+.. literalinclude:: code-frags/standalone-examples/components.js
+    :language: javascript
+    :lines: 34-41
+    :linenos:
+    :dedent: 4
 
 ----------------------------------------
 Creating command line programs with Atom 
@@ -312,53 +204,9 @@ top-level entry point (or points) to your application.
 
 Example:
 
-.. code:: javascript
-          
-  var o = require('carbon-io').atom.o(module).main // Note the .main here since this is the main application 
-
-  module.exports = o({
-    verbose: false,
-
-    cmdargs: {
-      sides: {
-        abbr: "s",
-        help: "The number of sides each die should have.",
-        required: false,
-        default: 6
-      },
-      num: {
-        position: 0,
-        flag: false,
-        help: "The number of dice to roll.",
-        required: false,
-        default: 1
-      },
-      verbose: {
-        abbr: "v",
-        flag: true,
-        help: "Log verbose output.",
-        required: false,
-        property: true // Will result in this.verbose having the value passed at the cmdline
-      },
-    },
-      
-    _main: function(options) {
-      if (this.verbose) {
-        console.log("Here is the input")
-        console.log(args)
-        console.log("Ok... rolling.......")
-      }
-
-      var numDice = args.num
-      var numSides = args.sides
-      var result = []
-      for (var i = 0; i < numDice; i++) {
-        result.push(Math.floor(Math.random() * numSides + 1)) // Random integer between 1 and numSides
-      }
-      
-      console.log(result)
-    }
-  })
+.. literalinclude:: code-frags/standalone-examples/DiceRollCli.js
+    :language: javascript
+    :linenos:
 
 Make note that here we use the ``main`` variant of the ``o`` operator
 to indicate to Atom that it should run the ``_main`` method when this
@@ -377,18 +225,18 @@ the ``-h`` flag:
 
 .. code:: sh
 
-  % node RollDice -h
-  Usage: node RollDice.js [num] [options]
+    % node DiceRollCli -h
 
-  num     The number of dice to roll.
+    Usage: node DiceRollCli [num] [options]
 
-  Options:
-     -s, --sides     The number of sides each die should have.  [6]
-     -v, --verbose   Log verbose output.
+    num     The number of dice to roll.
 
-  Environment variables: 
-    <none>
+    Options:
+       -s, --sides     The number of sides each die should have.  [6]
+       -v, --verbose   Log verbose output.
 
+    Environment variables:
+      <none>
 
 Argument Parsing
 ****************
@@ -440,65 +288,6 @@ function pointed to by the ``default`` property on ``_main``.
 
 Example:
 
-.. code:: javascript
-
-  var http = require('http')
-  var fs = require('fs')
-  var carbon = require('carbon-io')
-  var o = carbon.atom.o(module).main
-
-  module.exports = o({
-    verbose: false,
-    _app: undefined,
-      
-    cmdargs: { 
-      startServer: {
-        command: true,
-        full: 'start-server',
-        default: true,
-        cmdargs: {
-          port: {
-            abbr: "p",
-            help: "port server should listen on",
-            required: false,
-            default: 8080
-          }
-        }
-      },
-      stopServer: {
-        command: true,
-        full: 'stop-server',
-      },
-      verbose: {
-        abbr: "v",
-        help: "enable verbose logging",
-        required: false,
-        default: false,
-        property: true // set this value as a field on this object when parsed as a cmdline option
-      }
-    },
-      
-    _main: {
-      startServer: function(options) {
-        this.port = options.port
-        this._app = http.createServer(function(req, res) {
-          res.send("Hello")
-        })
-        this._app.listen(this.port, '127.0.0.1', function() {
-          fs.writeFileSync('/tmp/server.pid', process.pid, {encoding: 'utf8'})  
-          if (this.verbose) {
-            console.log("Server listening on port: " + this.port)
-          }
-        })      
-      },
-      stopServer: function(options) {
-        var pid = fs.readFileSync('/tmp/server.pid', {encoding: 'utf8'})
-        if (pid) {
-          if (this.verbose) {
-            console.log("Stopping server with pid: " + pid)
-          }
-          process.kill(pid, 'SIGTERM')
-        }
-      }
-    }
-  })
+.. literalinclude:: code-frags/standalone-examples/HelloServer.js
+    :language: javascript
+    :linenos:

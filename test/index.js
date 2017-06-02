@@ -59,7 +59,8 @@ __(function() {
       _o('./cmdargs-tests'),
       _o('./env-vars-tests'),
       NODE_MAJOR_VERSION >= 6 ? _o('./es6-tests') : _.merge(
-        new SkipTest(), {name: 'skipEs6Tests', description: 'skip es6 tests'})
+        new SkipTest(), {name: 'skipEs6Tests', description: 'skip es6 tests'}),
+      _o('../docs/code-frags/test')
     ]
   })
 

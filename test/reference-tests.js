@@ -32,7 +32,7 @@ __(function() {
         name: 'Simple',
         description: 'Simple',
         doTest: function() {
-          var a = _o('./lib/SomeAnimal')
+          var a = _o('./fixtures/SomeAnimal')
 
           assert(a.friend.staticCache)
           assert(a.cache)

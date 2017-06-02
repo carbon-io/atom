@@ -720,10 +720,10 @@ __(function() {
             assert(_.isUndefined(process.env.REQUIRED_ENV_VAR))
             assert(_.isUndefined(process.env.OPTIONAL_ENV_VAR))
             var subcommand = atom._processCmdargs(foo)
-            sandbox.stub(atom, '_processCmdargs', function() {
+            sandbox.stub(atom, '_processCmdargs').callsFake(function() {
               return subcommand
             })
-            sandbox.stub(atom._argparser, 'print', function() {})
+            sandbox.stub(atom._argparser, 'print').callsFake(function() {})
             atom._runMain(foo, require.main)
             // error printed and exit called
             assert(atom._argparser.print.called)
@@ -761,10 +761,10 @@ __(function() {
             assert(_.isUndefined(process.env.REQUIRED_ENV_VAR))
             assert(_.isUndefined(process.env.OPTIONAL_ENV_VAR))
             var subcommand = atom._processCmdargs(foo)
-            sandbox.stub(atom, '_processCmdargs', function() {
+            sandbox.stub(atom, '_processCmdargs').callsFake(function() {
               return subcommand
             })
-            sandbox.stub(atom._argparser, 'print', function() {})
+            sandbox.stub(atom._argparser, 'print').callsFake(function() {})
             atom._runMain(foo, require.main)
             // error printed and exit called
             assert(atom._argparser.print.called)

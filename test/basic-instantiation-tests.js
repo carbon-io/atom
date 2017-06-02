@@ -353,7 +353,7 @@ __(function() {
         doTest: function(ctx, done) {
           var self = this
           var mainCalled = false
-          var o_ = require('../lib/atom.js').o(require.main)
+          var o_ = require('../lib/atom').o(require.main)
           var app = o_.main({
             runMainInFiber: true,
             _main: function() {
