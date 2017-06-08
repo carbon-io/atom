@@ -27,8 +27,8 @@
   "devDependencies": {
     "tmp": "0.0.x",
     "@carbon-io/test-tube": "0.6.x",
-    "sinon": "2.x",
-    "mockery": "1.x"
+    "sinon": "2.3.x",
+    "mockery": "2.0.x"
   },
   "scripts": {
     "test": "node test/index.js"
