@@ -16,7 +16,6 @@ var carbonioMock = {
   fibers: fibers,
   testtube: testtube
 }
-mockery.registerMock('carbon-io', carbonioMock)
 
 __(function() {
   module.exports = o.main({
@@ -39,6 +38,7 @@ __(function() {
      * setup
      */
     setup: function() {
+      mockery.registerMock('carbon-io', carbonioMock)
       mockery.enable({
         warnOnReplace: false,
         warnOnUnregistered: false
@@ -50,14 +50,21 @@ __(function() {
      */
     teardown: function() {
       mockery.disable()
+      mockery.deregisterMock('carbon-io')
     },
 
     /**********************************************************************
      * tests
      */
-    tests: [
-      _o('./standalone-tests'),
-    ]
+    tests: {
+      $property: {
+        get: function() {
+          return [
+            _o('./standalone-tests'),
+          ]
+        }
+      }
+    }
   })
 })
 
