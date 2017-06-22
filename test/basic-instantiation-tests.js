@@ -4,6 +4,7 @@ var sinon = require('sinon')
 
 var __ = require('@carbon-io/fibers').__(module)
 var _o = require('@carbon-io/bond')._o(module)
+var logging = require('@carbon-io/logging')
 var testtube = require('@carbon-io/test-tube')
 
 var util= require('./util')
@@ -339,40 +340,6 @@ __(function() {
           assert.equal(baz.baz, 1)
         }
       }),
-      util.makeTest({
-        name: 'runMainInFiberDeprecationWarningTest',
-        description: 'Test that a deprecation warning is printed when ' +
-                     'runMainInFiber is requested',
-        setup: function() {
-          this.sandbox = sinon.sandbox.create()
-          this.warnSpy = this.sandbox.spy(console, 'warn')
-        },
-        teardown: function() {
-          this.sandbox.restore()
-        },
-        doTest: function(ctx, done) {
-          var self = this
-          var mainCalled = false
-          var o_ = require('../lib/atom').o(require.main)
-          var app = o_.main({
-            runMainInFiber: true,
-            _main: function() {
-              mainCalled = true
-            }
-          })
-          setImmediate(function() {
-            var err = undefined
-            try {
-              assert(mainCalled)
-              assert.equal(self.warnSpy.callCount, 1)
-              assert(self.warnSpy.firstCall.args[0].includes('DEPRECATED'))
-            } catch (e) {
-              err = e
-            }
-            done(err)
-          })
-        }
-      })
     ]
   })
 

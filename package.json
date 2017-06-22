@@ -22,6 +22,7 @@
     "lodash" : "4.5.x",
     "@carbon-io/bond": "0.6.x",
     "@carbon-io/fibers": "0.7.x",
+    "@carbon-io/logging": "git+ssh://git@github.com/carbon-io/logging",
     "@carbon-io/nomnom": "1.8.x"
   },
   "devDependencies": {

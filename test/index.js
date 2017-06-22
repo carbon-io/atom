@@ -32,8 +32,6 @@ var SkipTest = require('@carbon-io/test-tube').util.SkipTest
 
 NODE_MAJOR_VERSION = Number(process.version.match(/v(\d+)\..+/)[1])
 
-mod = module
-
 /**************************************************************************
  * All tests
  */
@@ -60,6 +58,7 @@ __(function() {
       _o('./env-vars-tests'),
       NODE_MAJOR_VERSION >= 6 ? _o('./es6-tests') : _.merge(
         new SkipTest(), {name: 'skipEs6Tests', description: 'skip es6 tests'}),
+      _o('./logging-tests'),
       _o('../docs/code-frags/test')
     ]
   })
