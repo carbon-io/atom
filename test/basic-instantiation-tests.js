@@ -4,7 +4,6 @@ var sinon = require('sinon')
 
 var __ = require('@carbon-io/fibers').__(module)
 var _o = require('@carbon-io/bond')._o(module)
-var logging = require('@carbon-io/logging')
 var testtube = require('@carbon-io/test-tube')
 
 var util= require('./util')

@@ -6,7 +6,7 @@ var sinon = require('sinon')
 
 var __ = require('@carbon-io/fibers').__(module)
 var _o = require('@carbon-io/bond')._o(module)
-var logging = require('@carbon-io/logging')
+var logging = undefined
 
 var util = require('./util')
 
@@ -15,6 +15,9 @@ var o = require('../lib/atom').o(module)
 __(function() {
   module.exports = util.makeTest({
     name: 'InternalLoggingTests',
+    setup: function() {
+      logging = require('@carbon-io/logging')
+    },
     tsetup: function() {
       // do not run this in the top level test since we are mocking Date 
       // (would screw up test timings otherwise)
