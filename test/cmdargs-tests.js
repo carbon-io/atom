@@ -81,7 +81,8 @@ __(function() {
     tsetup: function() {
       mockery.enable({
         warnOnReplace: false,
-        warnOnUnregistered: false
+        warnOnUnregistered: false,
+        useCleanCache: true
       })
 
       this.Atom = require('../lib/atom').Atom
