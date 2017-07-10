@@ -372,6 +372,41 @@ __(function() {
             done(err)
           })
         }
+      }),
+      util.makeTest({
+        name: 'propertyPathAssignmentTest',
+        description: 'Test that properties with "." in the name assigns values to nested ' +
+                     'objects appropriately',
+        doTest: function() {
+          var Foo = oo({
+              _C: function() {
+                this.foo = 0
+              }
+          })
+          var Bar = oo({
+            _C: function() {
+              this.foo = o({
+                _type: Foo
+              })
+              this.baz = {
+                a: {
+                  b: {
+                    c: {
+                      d: 0
+                    }
+                  }
+                }
+              }
+            }
+          })
+          var bar = o({
+            _type: Bar,
+            'foo.foo': 1,
+            'baz.a.b.c.d': 2
+          })
+          assert.equal(bar.foo.foo, 1)
+          assert.equal(bar.baz.a.b.c.d, 2)
+        }
       })
     ]
   })
