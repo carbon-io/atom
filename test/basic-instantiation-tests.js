@@ -11,24 +11,24 @@ var util= require('./util')
 var o = require('../lib/atom').o(module)
 var oo = require('../lib/atom').oo(module)
 
-/*******************************************************************************
+/***************************************************************************************************
  * basic instantiation tests
  */
 
 
 __(function() {
   module.exports = util.makeTest({
-    /**********************************************************************
+    /***************************************************************************
      * name
      */
     name: 'BasicInstantiationTests',
 
-    /**********************************************************************
+    /***************************************************************************
      * description
      */
     description: 'Basic instantiation tests',
 
-    /**********************************************************************
+    /***************************************************************************
      * setup
      */
     setup: function () {
@@ -36,7 +36,7 @@ __(function() {
       this.instances = {}
     },
 
-    /**********************************************************************
+    /***************************************************************************
      * teardown
      */
     teardown: function () { },
@@ -48,18 +48,18 @@ __(function() {
           var myObj = o({})
           assert(typeof(myObj) === 'object')
           assert(Object.keys(myObj).length == 0)
-          
+
           var myObj2 = o({_type: Object})
           assert(typeof(myObj2) === 'object')
           assert(Object.keys(myObj2).length == 0)
-          
+
           assert.throws(function() {
             var t = undefined
             o({_type: t})
           })
         }
       }),
-      
+
       util.makeTest({
         name: '',
         description: '',
