@@ -1,6 +1,6 @@
 {
   "name": "@carbon-io/atom",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "description": "Simple object toolkit for Javascript",
   "license": "MIT",
   "keywords": ["atom", "atomjs"],
@@ -17,16 +17,16 @@
     "lib" : "./lib",
     "bin" : "./bin"
   },
-  "engines": { "node": ">= 4.0.0" },
+  "engines": { "node": ">= 6.0.0" },
   "dependencies" : {
     "lodash" : "4.5.x",
     "@carbon-io/bond": "0.7.x",
-    "@carbon-io/fibers": "0.7.x",
+    "@carbon-io/fibers": "0.8.x",
     "@carbon-io/nomnom": "1.8.x"
   },
   "devDependencies": {
     "tmp": "0.0.x",
-    "@carbon-io/test-tube": "0.6.x",
+    "@carbon-io/test-tube": "0.7.x",
     "sinon": "2.3.x",
     "mockery": "2.0.x"
   },
