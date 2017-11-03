@@ -90,7 +90,7 @@ Here is the same example using an ES6 class definition:
 Nested objects
 **************
 
-.. literalinclude:: code-frags/standalone-examples/instantiation/nestedObjectsField.js
+.. literalinclude:: code-frags/standalone-examples/instantiation/nestedObjectsInvoke.js
     :language: javascript 
     :lines: 21-33
     :linenos:
