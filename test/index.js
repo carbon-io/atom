@@ -55,6 +55,7 @@ __(function() {
       _o('./cmdargs-tests'),
       _o('./env-vars-tests'),
       _o('./es6-tests'),
+      _o('./define-property-command-tests'),
       _o('../docs/code-frags/test')
     ]
   })
