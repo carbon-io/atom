@@ -40,6 +40,188 @@ __(function() {
      */
     tests: [
       util.makeTest({
+        name: 'SetTests',
+        tests: [
+          util.makeTest({
+            name: 'DotPathSetTest',
+            doTest: function() {
+              let _prototype = {
+                a: {
+                  b: {
+                    c: 1
+                  }
+                }
+              }
+              let object = o({
+                _type: _prototype,
+                '$a.b.c': 2,
+                d: 3
+              })
+              util.isMatch(object, {
+                a: {
+                  b: {
+                    c: 2
+                  }
+                },
+                d: 3
+              })
+            }
+          }),
+          util.makeTest({
+            name: 'DotPathSetNonExistentPathTest',
+            doTest: function() {
+              let _prototype = {
+                a: {
+                  b: {
+                    c: 1
+                  }
+                }
+              }
+              let object = o({
+                _type: _prototype,
+                '$d.e.f': 2
+              })
+              util.isMatch(object, {
+                a: {
+                  b: {
+                    c: 1
+                  }
+                },
+                d: {
+                  e: {
+                    f: 2
+                  }
+                }
+              })
+            }
+          }),
+          util.makeTest({
+            name: 'DotPathArrayIndexTest',
+            doTest: function() {
+              let _prototype = {
+                a: {
+                  b: {
+                    c: 1
+                  }
+                }
+              }
+              let object = o({
+                _type: _prototype,
+                '$a.b.d[0]': 2
+              })
+              util.isMatch(object, {
+                a: {
+                  b: {
+                    c: 1,
+                    d: [2]
+                  }
+                },
+              })
+            }
+          }),
+          util.makeTest({
+            name: 'DotPathSparseArrayIndexTest',
+            doTest: function() {
+              let _prototype = {
+                a: {
+                  b: {
+                    c: 1
+                  }
+                }
+              }
+              let object = o({
+                _type: _prototype,
+                '$a.b.d[100]': 2
+              })
+              util.isMatch(object, {
+                a: {
+                  b: {
+                    c: 1,
+                    d: _.map(_.range(100), i => i === 99 ? 2 : undefined)
+                  }
+                },
+              })
+            }
+          }),
+          util.makeTest({
+            name: 'DotPathIntLikeStringsTreatedAsPropertiesTest',
+            description: 'Test the behavior of integer like strings (e.g., "01")',
+            doTest: function() {
+              let _prototype = {
+                a: {
+                  b: {
+                    c: 1
+                  }
+                }
+              }
+              let object = o({
+                _type: _prototype,
+                '$a.b.d[01]': 2
+              })
+              util.isMatch(object, {
+                a: {
+                  b: {
+                    c: 1,
+                    d: {
+                      '01': 2
+                    }
+                  }
+                },
+              })
+            }
+          }),
+          util.makeTest({
+            name: 'DotPathArrayIndexIntoObjectTest',
+            doTest: function() {
+              let _prototype = {
+                a: {
+                  b: {
+                    c: 1,
+                    d: {
+                      e: 2
+                    }
+                  }
+                }
+              }
+              let object = o({
+                _type: _prototype,
+                '$a.b.d[1]': 3
+              })
+              util.isMatch(object, {
+                a: {
+                  b: {
+                    c: 1,
+                    d: {
+                      e: 2,
+                      1: 3
+                    }
+                  }
+                },
+              })
+            }
+          }),
+          util.makeTest({
+            name: 'DotPathStringIndexThrowsTest',
+            doTest: function() {
+              let _prototype = {
+                a: {
+                  b: {
+                    c: 'bar',
+                  }
+                }
+              }
+              assert.throws(
+                () => {
+                  let object = o({
+                    _type: _prototype,
+                    '$a.b.c[2]': 'z'
+                  })
+                }, TypeError)
+            }
+          }),
+        ]
+      }),
+      util.makeTest({
         name: 'MergeTests',
         tests: [
           util.makeTest({
@@ -269,7 +451,7 @@ __(function() {
               }
               let object = o({
                 _type: _prototype,
-                'c.d.e': {
+                '$c.d.e': {
                   $merge: {
                     g: 4
                   }
@@ -306,7 +488,7 @@ __(function() {
               }
               let object = o({
                 _type: _prototype,
-                'g.h.i': {
+                '$g.h.i': {
                   $merge: {
                     j: 4
                   }
@@ -374,90 +556,83 @@ __(function() {
                 }
               })
             }
-          })
-        ]
-      }),
-      util.makeTest({
-        name: 'SetTests',
-        tests: [
+          }),
           util.makeTest({
-            name: 'SimpleSetTest',
+            name: 'MergeWithArrayTest',
             doTest: function() {
               let _prototype = {
-                a: 1,
-                b: 2
+                a: {
+                  b: {
+                    c: [0]
+                  }
+                }
               }
               let object = o({
                 _type: _prototype,
-                a: {
-                  $set: 3
-                },
-                c: {
-                  $set: 4
+                '$a.b.c': {
+                  $merge: {
+                    j: 4
+                  }
                 }
               })
               util.isMatch(object, {
-                a: 3,
-                b: 2,
-                c: 4
+                a: {
+                  b: {
+                    c: _.assign([0], {j: 4})
+                  }
+                }
               })
             }
           }),
           util.makeTest({
-            name: 'DotPathSetTest',
+            name: 'MergeWithArrayElementTest',
             doTest: function() {
               let _prototype = {
                 a: {
                   b: {
-                    c: 1
+                    c: [{
+                      d: 1
+                    }]
                   }
                 }
               }
               let object = o({
                 _type: _prototype,
-                'a.b.c': {
-                  $set: 2
-                },
-                d: 3
+                '$a.b.c[0]': {
+                  $merge: {
+                    e: 2
+                  }
+                }
               })
               util.isMatch(object, {
                 a: {
                   b: {
-                    c: 2
+                    c: [{
+                      d: 1,
+                      e: 2
+                    }]
                   }
-                },
-                d: 3
+                }
               })
             }
           }),
           util.makeTest({
-            name: 'DotPathSetNonExistentPathTest',
+            name: 'MergeWithNonObjectThrowsTest',
             doTest: function() {
               let _prototype = {
-                a: {
-                  b: {
-                    c: 1
-                  }
-                }
+                a: 'foo'
               }
-              let object = o({
-                _type: _prototype,
-                'd.e.f': {
-                  $set: 2
-                }
-              })
-              util.isMatch(object, {
-                a: {
-                  b: {
-                    c: 1
-                  }
-                },
-                d: {
-                  e: {
-                    f: 2
-                  }
-                }
-              })
+              assert.throws(
+                () => {
+                  let object = o({
+                    _type: _prototype,
+                    a: {
+                      $merge: {
+                        b: 1
+                      }
+                    }
+                  })
+                }, TypeError)
             }
           }),
         ]
@@ -477,7 +652,7 @@ __(function() {
               }
               let object = o({
                 _type: _prototype,
-                'a.b.c': {
+                '$a.b.c': {
                   $property: {
                     enumerable: false,
                     configurable: false,
@@ -510,7 +685,7 @@ __(function() {
               }
               let object = o({
                 _type: _prototype,
-                'd.e.f': {
+                '$d.e.f': {
                   $property: {
                     enumerable: false,
                     configurable: false,
