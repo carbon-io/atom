@@ -219,6 +219,114 @@ __(function() {
                 }, TypeError)
             }
           }),
+          util.makeTest({
+            name: 'DotPathLeaderCharaterNonDotPathTest',
+            description: 'Test that a leader character followed by a non property path is ' +
+                         'not interpreted as a property path',
+            doTest: function() {
+              let _prototype = {
+                a: {
+                  b: {
+                    c: 1,
+                  }
+                }
+              }
+              let object = o({
+                _type: _prototype,
+                $a: 2
+              })
+              util.isMatch(object, {
+                $a: 2
+              })
+            }
+          }),
+          util.makeTest({
+            name: 'DotPathLeaderCharaterEscapeNonDotPathTest',
+            description: 'Test that an even number of leader characters (e.g., "$") does not' +
+                         'does not get interpreted as a property path.',
+            doTest: function() {
+              let _prototype = {
+                a: {
+                  b: {
+                    c: 1,
+                  }
+                }
+              }
+              let object = o({
+                _type: _prototype,
+                '$$$$a.b.c': 2
+              })
+              util.isMatch(object, {
+                a: {
+                  b: {
+                    c: 1
+                  }
+                },
+                '$$a.b.c': 2
+              })
+            }
+          }),
+          util.makeTest({
+            name: 'DotPathLeaderCharaterEscapeTest',
+            description: 'Test that an odd number of leader characters (e.g., "$") gets ' +
+                         'interpreted as a property path with trailing leader characters ' +
+                         'escaped properly.',
+            doTest: function() {
+              let _prototype = {
+                a: {
+                  b: {
+                    c: 1,
+                  }
+                }
+              }
+              let object = o({
+                _type: _prototype,
+                '$$$$$a.b.c': 2
+              })
+              util.isMatch(object, {
+                a: {
+                  b: {
+                    c: 1
+                  }
+                },
+                $$a: {
+                  b: {
+                    c: 2
+                  }
+                }
+              })
+            }
+          }),
+          util.makeTest({
+            name: 'DotPathLeaderCharaterInPathTreatedLiterallyTest',
+            description: 'Test that a property name with leader characters in the ' +
+                         'property path is treated literally',
+            doTest: function() {
+              let _prototype = {
+                a: {
+                  b: {
+                    c: 1,
+                  }
+                }
+              }
+              let object = o({
+                _type: _prototype,
+                '$a.b.$c': 2,
+                '$a.b.$$c': 3,
+                '$a.b.$$$c': 4
+              })
+              util.isMatch(object, {
+                a: {
+                  b: {
+                    c: 1,
+                    $c: 2,
+                    $$c: 3,
+                    $$$c: 4
+                  }
+                },
+              })
+            }
+          }),
         ]
       }),
       util.makeTest({
