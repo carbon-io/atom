@@ -1,15 +1,15 @@
-var assert = require('assert')
+var assert   = require('assert')
 
-var sinon = require('sinon')
+var sinon    = require('sinon')
 
-var __ = require('@carbon-io/fibers').__(module)
-var _o = require('@carbon-io/bond')._o(module)
+var __       = require('@carbon-io/fibers').__(module)
+var _o       = require('@carbon-io/bond')._o(module)
 var testtube = require('@carbon-io/test-tube')
 
-var util= require('./util')
+var util     = require('./util')
 
-var o = require('../lib/atom').o(module)
-var oo = require('../lib/atom').oo(module)
+var o        = require('../lib/atom').o(module)
+var oo       = require('../lib/atom').oo(module)
 
 /***************************************************************************************************
  * basic instantiation tests
@@ -43,7 +43,7 @@ __(function() {
 
     tests: [
       util.makeTest({
-        name: 'BasicObjectInstantiation',
+        name: 'BasicObjectInstantiationTest',
         doTest: function() {
           var myObj = o({})
           assert(typeof(myObj) === 'object')
@@ -54,15 +54,12 @@ __(function() {
           assert(Object.keys(myObj2).length == 0)
 
           assert.throws(function() {
-            var t = undefined
-            o({_type: t})
+            o({_type: undefined})
           })
         }
       }),
-
       util.makeTest({
-        name: '',
-        description: '',
+        name: 'BasicClassCreationTest',
         doTest: function() {
           var self = this
           assert.doesNotThrow(function() {
@@ -87,8 +84,7 @@ __(function() {
         }
       }),
       util.makeTest({
-        name: '',
-        description: '',
+        name: 'ooDefinedObjectInstantiationTest',
         doTest: function() {
           var self = this
           assert.doesNotThrow(function() {
@@ -99,8 +95,7 @@ __(function() {
         }
       }),
       util.makeTest({
-        name: '',
-        description: '',
+        name: 'ooDefinedObjectInstantiationWithInstancePropertyInitializationTest',
         doTest: function() {
           var self = this
           assert.doesNotThrow(function() {
@@ -112,8 +107,7 @@ __(function() {
         }
       }),
       util.makeTest({
-        name: '',
-        description: '',
+        name: 'ooDefinedObjectInstantiationValidationTest',
         doTest: function() {
           assert.equal(this.parent.instances.a1.isHappy, true)
           assert.equal(this.parent.instances.a1.name, "Animal")
@@ -125,8 +119,7 @@ __(function() {
         }
       }),
       util.makeTest({
-        name: '',
-        description: '',
+        name: 'InstanceVersusPrototypePropertyTest',
         doTest: function() {
           // prototype vs local fields
           this.parent.instances.a1.instanceCache.a = 1
@@ -136,8 +129,7 @@ __(function() {
         }
       }),
       util.makeTest({
-        name: '',
-        description: '',
+        name: 'PrototypePropertyInstanceOverrideTest',
         doTest: function () {
           var self = this
           // can override prototype property on instance
@@ -168,8 +160,7 @@ __(function() {
         }
       }),
       util.makeTest({
-        name: '',
-        description: '',
+        name: 'NestedObjectInstantiationTest',
         doTest: function () {
           var self = this
           assert.doesNotThrow(function() {
@@ -188,8 +179,7 @@ __(function() {
         }
       }),
       util.makeTest({
-        name: '',
-        description: '',
+        name: 'oTypeArgumentInstantiationTest',
         doTest: function () {
           var self = this
           // testing make with targetType
@@ -202,8 +192,7 @@ __(function() {
         }
       }),
       util.makeTest({
-        name: '',
-        description: '',
+        name: 'InitNotChainedTest',
         doTest: function () {
           var self = this
           // test of calling constructor of oo defined class directly and having _init called
@@ -226,25 +215,34 @@ __(function() {
           }, Error)
 
           assert.equal(this.parent.instances.a7.isHappy, false)
-          assert.notEqual(this.parent.instances.a7.initCalledByAnimalInit, true) // init should not automatically chain
-
+          // init should not automatically chain
+          assert.notEqual(this.parent.instances.a7.initCalledByAnimalInit, true)
+        }
+      }),
+      util.makeTest({
+        name: 'ConstructorArgsPassedToInitTest',
+        doTest: function () {
+          var self = this
           // test constructor args get passed through to _init
           assert.doesNotThrow(function() {
             self.parent.instances.a8 = new self.parent.classes.FunAnimal(8)
           }, Error)
           assert.equal(this.parent.instances.a8.isHappy, 8)
-
+        }
+      }),
+      util.makeTest({
+        name: 'oTrailingArgsPassedToInitTest',
+        doTest: function () {
+          var self = this
           assert.doesNotThrow(function() {
             self.parent.instances.a9 = o({}, self.parent.classes.FunAnimal, 88, 99)
           }, Error)
           assert.equal(this.parent.instances.a9.isHappy, 88)
           assert.equal(this.parent.instances.a9.isSad, 99)
-
         }
       }),
       util.makeTest({
-        name: 'BaseClassInitSuppressionTest',
-        description: 'Test that _init is not called on base class',
+        name: 'CInitOrderingTest',
         doTest: function () {
           var self = this
 
@@ -277,8 +275,8 @@ __(function() {
         }
       }),
       util.makeTest({
-        name: 'BaseClassInitSuppressionTest',
-        description: 'Test that _init is not called on base class',
+        name: 'NonWritablePrototypePropertyShadowedTest',
+        description: 'Verify fix for carbon-io/carbond#20',
         doTest: function () {
           var Foo = oo({
             _C: function () {

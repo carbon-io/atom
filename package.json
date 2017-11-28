@@ -19,7 +19,7 @@
   },
   "engines": { "node": ">= 6.0.0" },
   "dependencies" : {
-    "lodash" : "4.5.x",
+    "lodash" : "4.17.x",
     "@carbon-io/bond": "0.7.x",
     "@carbon-io/fibers": "0.8.x",
     "@carbon-io/nomnom": "1.8.x"

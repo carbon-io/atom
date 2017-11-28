@@ -1,9 +1,11 @@
+var assert = require('assert')
+
 var _ = require('lodash')
 
 var __ = require('@carbon-io/fibers').__(module)
 var testtube = require('@carbon-io/test-tube')
 
-var makeTest = function(test, TestClass) {
+function makeTest(test, TestClass) {
   if (_.isUndefined(TestClass)) {
     TestClass = testtube.Test
   }
@@ -19,13 +21,35 @@ var makeTest = function(test, TestClass) {
   return test_
 }
 
-var runTestIfMain = function(test, mod) {
+function runTestIfMain(test, mod) {
   if (require.main == mod) {
     test._main.run.call(test)
   }
 }
 
+function isMatch(actual, expected) {
+  if (!_.isMatch(actual, expected)) {
+    assert.fail(
+      actual, expected, 'The expected value is not subsumed by the actual value', 'isMatch', isMatch)
+  }
+}
+
+function notIsMatch(actual, expected) {
+  try {
+    isMatch(actual, expected)
+  } catch (e) {
+    if (!(e instanceof assert.AssertionError)) {
+      throw e
+    }
+    return
+  }
+  assert.fail(
+    actual, expected, 'The expected value is subsumed by the actual value', 'notIsMatch', notIsMatch)
+}
+
 module.exports = {
+  isMatch: isMatch,
   makeTest: makeTest,
+  notIsMatch: notIsMatch,
   runTestIfMain: runTestIfMain
 }
