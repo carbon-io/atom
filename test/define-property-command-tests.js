@@ -823,6 +823,53 @@ __(function() {
             }
           })
         ]
+      }),
+      util.makeTest({
+        name: 'DeleteTests',
+        tests: [
+          util.makeTest({
+            name: 'SingleLevelDeleteTest',
+            doTest: function() {
+              let _prototype = {
+                a: 1,
+                b: 2,
+                c: {
+                  d: 3,
+                  e: 4
+                }
+              }
+              let object = o({
+                _type: _prototype,
+                c: {
+                  $delete: 'e'
+                }
+              })
+              assert.equal(object.c.d, 3)
+              assert.ok(_.isNil(object.c.e))
+            }
+          }),
+          util.makeTest({
+            name: 'SingleLevelMultiDeleteTest',
+            doTest: function() {
+              let _prototype = {
+                a: 1,
+                b: 2,
+                c: {
+                  d: 3,
+                  e: 4
+                }
+              }
+              let object = o({
+                _type: _prototype,
+                c: {
+                  $delete: ['d', 'e']
+                }
+              })
+              assert.ok(_.isNil(object.c.d))
+              assert.ok(_.isNil(object.c.e))
+            }
+          })
+        ]
       })
     ]
   }),
