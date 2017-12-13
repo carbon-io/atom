@@ -4,7 +4,7 @@ var __ = require('@carbon-io/fibers').__(module)
 var _o = require('@carbon-io/bond')._o(module)
 var testtube = require('@carbon-io/test-tube')
 
-var o = require('../../../../lib/atom').o(module)
+var o = require('../../../../lib').o(module)
 
 __(function() {
   module.exports = o.main({

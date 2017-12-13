@@ -1,18 +1,19 @@
 function objectWithMethod() {
-  var o = require('carbon-io').atom.o(module) 
+  // pre-objectWithMethod
+  var o = require('carbon-io').atom.o(module)
 
-  // Person class 
+  // Person class
   var Person = function() {
     this.name = "Some Person"
-    this.email = null 
+    this.email = null
     this.age = 0
   }
 
-  // Instance of Person 
+  // Instance of Person
   var Jo = o({
-    _type: Person, 
-    name: "Jo Smith", 
-    email: "jo@smith.com", 
+    _type: Person,
+    name: "Jo Smith",
+    email: "jo@smith.com",
     age: 35,
     sayName: function() {
       console.log(this.name)
@@ -20,6 +21,7 @@ function objectWithMethod() {
   })
 
   Jo.sayName() // prints "Jo Smith"
+  // post-objectWithMethod
 
   return {
     Person: Person,
@@ -28,12 +30,15 @@ function objectWithMethod() {
 }
 
 function dynamicProperty() {
-  var o = require('carbon-io').atom.o(module) 
+  var o = require('carbon-io').atom.o(module)
 
+  // pre-keyValueProperty
   var John = o({
     name: "John Smith"
   })
+  // post-keyValueProperty
 
+  // pre-dynamicProperty
   var clock = o({
     now: {
       $property: {
@@ -43,6 +48,7 @@ function dynamicProperty() {
       }
     }
   })
+  // post-dynamicProperty
 
   return {
     John: John,
@@ -51,8 +57,9 @@ function dynamicProperty() {
 }
 
 function _init() {
-  var o = require('carbon-io').atom.o(module) 
+  var o = require('carbon-io').atom.o(module)
 
+  // pre-lifecycleInit
   var repeater = o({
     delay: 1000,
     _init: function() {
@@ -61,6 +68,7 @@ function _init() {
       }, this.delay)
     }
   })
+  // post-lifecycleInit
 
   return repeater
 }

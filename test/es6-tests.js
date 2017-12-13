@@ -12,8 +12,8 @@ var mockery = require('mockery')
 var __ = require('@carbon-io/fibers').__(module)
 var testtube = require('@carbon-io/test-tube')
 
-var o = require('../lib/atom').o(module)
-var oo = require('../lib/atom').oo(module)
+var o = require('../lib').o(module)
+var oo = require('../lib').oo(module)
 
 var util = require('./util')
 

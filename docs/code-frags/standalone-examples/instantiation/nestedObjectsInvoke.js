@@ -15,9 +15,10 @@ function nestedObjectsInvoke() {
        this.age = 0
     }
   })
-  
-  var o = require('carbon-io').atom.o(module) 
 
+  var o = require('carbon-io').atom.o(module)
+
+  // pre-nestedObjectsInvoke
   var person = o({
     _type: Person,
     name: 'Jo Smith',
@@ -31,6 +32,7 @@ function nestedObjectsInvoke() {
       zip: '94019'
     })
   })
+  // post-nestedObjectsInvoke
 
   return {
     Address: Address,

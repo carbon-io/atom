@@ -1,4 +1,4 @@
-var o = require('../../lib/atom').o(module, true);
+var o = require('../../lib').o(module);
 var _o = require('@carbon-io/bond')._o(module)
 
 module.exports = o({

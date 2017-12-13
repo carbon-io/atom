@@ -6,8 +6,8 @@ var testtube = require('@carbon-io/test-tube')
 
 var util = require('./util')
 
-var o = require('../lib/atom').o(module)
-var oo = require('../lib/atom').oo(module)
+var o = require('../lib').o(module)
+var oo = require('../lib').oo(module)
 
 /***************************************************************************************************
  * inheritance tests

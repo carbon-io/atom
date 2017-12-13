@@ -7,7 +7,7 @@ var __ = require('@carbon-io/fibers').__(module)
 var _o = require('@carbon-io/bond')._o(module)
 var testtube = require('@carbon-io/test-tube')
 
-var o = require('../../../../lib/atom').o(module)
+var o = require('../../../../lib').o(module)
 
 __(function() {
   module.exports = o.main({
@@ -19,7 +19,7 @@ __(function() {
         name: 'DiceRollCliTest',
         setup: function() {
           var self = this
-          this.atom = require('../../../../lib/atom')
+          this.atom = require('../../../../lib')
           this.o = this.atom.o
           this.output = ''
 
@@ -59,7 +59,7 @@ __(function() {
         name: 'HelloServerTest',
         setup: function() {
           var self = this
-          this.atom = require('../../../../lib/atom')
+          this.atom = require('../../../../lib')
           this.o = this.atom.o
           this.output = ''
           this.pid = 0

@@ -10,7 +10,7 @@ var testtube = require('@carbon-io/test-tube')
 
 var util = require('./util')
 
-var Atom = require('../lib/atom').Atom
+var Atom = require('../lib').Atom
 
 // constants from atom.js
 var ENVIRONMENT_VARIABLES_FIELD = 'environmentVariables'

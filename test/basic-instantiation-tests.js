@@ -8,8 +8,8 @@ var testtube = require('@carbon-io/test-tube')
 
 var util     = require('./util')
 
-var o        = require('../lib/atom').o(module)
-var oo       = require('../lib/atom').oo(module)
+var o        = require('../lib').o(module)
+var oo       = require('../lib').oo(module)
 
 /***************************************************************************************************
  * basic instantiation tests
@@ -351,7 +351,7 @@ __(function() {
         doTest: function(ctx, done) {
           var self = this
           var mainCalled = false
-          var o_ = require('../lib/atom').o(require.main)
+          var o_ = require('../lib').o(require.main)
           var app = o_.main({
             runMainInFiber: true,
             _main: function() {

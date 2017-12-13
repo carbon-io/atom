@@ -85,9 +85,9 @@ __(function() {
         useCleanCache: true
       })
 
-      this.Atom = require('../lib/atom').Atom
-      this.o = require('../lib/atom').o(module)
-      this.oo = require('../lib/atom').oo(module)
+      this.Atom = require('../lib').Atom
+      this.o = require('../lib').o(module)
+      this.oo = require('../lib').oo(module)
 
       this.Foo = this.oo(this.objCls)
 

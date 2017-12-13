@@ -1,5 +1,5 @@
-var o = require('../../lib/atom').o(module);
-var oo = require('../../lib/atom').oo(module);
+var o = require('../../lib').o(module);
+var oo = require('../../lib').oo(module);
 
 module.exports = oo({
   _C: function() {

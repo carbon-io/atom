@@ -6,8 +6,8 @@ var o = carbon.atom.o(module)
 module.exports = o.main({
   verbose: false,
   _app: undefined,
-    
-  cmdargs: { 
+
+  cmdargs: {
     startServer: {
       command: true,
       full: 'start-server',
@@ -29,11 +29,11 @@ module.exports = o.main({
       help: 'enable verbose logging',
       required: false,
       flag: true,
-      property: true // set this value as a field on this object when parsed 
+      property: true // set this value as a field on this object when parsed
                      // as a cmdline option
     }
   },
-    
+
   _main: {
     startServer: function(options) {
       var self = this
@@ -42,11 +42,11 @@ module.exports = o.main({
         res.end('Hello')
       })
       this._app.listen(this.port, '127.0.0.1', function() {
-        fs.writeFileSync('/tmp/server.pid', process.pid, {encoding: 'utf8'})  
+        fs.writeFileSync('/tmp/server.pid', process.pid, {encoding: 'utf8'})
         if (self.verbose) {
           console.log('Server listening on port: ' + self.port)
         }
-      })      
+      })
     },
     stopServer: function(options) {
       var pid = fs.readFileSync('/tmp/server.pid', {encoding: 'utf8'})

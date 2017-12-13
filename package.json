@@ -12,7 +12,7 @@
     "type" : "git",
     "url" : "https://github.com/carbon-io/atom.git"
   },
-  "main": "./lib/atom.js",
+  "main": "./lib/index.js",
   "directories" : {
     "lib" : "./lib",
     "bin" : "./bin"

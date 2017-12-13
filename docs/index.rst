@@ -2,8 +2,8 @@
 Atom
 ====
 
-Atom is a Dependency Injection library for creating re-usable
-Javascript components and command-line programs.
+Atom is a Dependency Injection library for creating re-usable Javascript
+components and command-line programs.
 
 The central design goal of Atom is to provide a declarative mechanism 
 for defining objects (instances of classes) and command-line interfaces. 
@@ -12,7 +12,7 @@ for defining objects (instances of classes) and command-line interfaces.
 The ``o`` operator
 ------------------
 
-At the core of Atom is the ``o`` operator. The ``o`` is used to make
+At the core of Atom is the :js:func:`~atom.o` operator. The ``o`` is used to make
 objects.
 
 The ``o`` operator takes a specification of an object that defines:
@@ -34,7 +34,8 @@ same as not using ``o`` at all):
 
 .. literalinclude:: code-frags/standalone-examples/instantiation/simpleInvoke.js
     :language: javascript 
-    :lines: 2-3,4
+    :start-after: pre-simpleInvokeNoType
+    :end-before: post-simpleInvokeNoType
     :linenos:
     :dedent: 2
 
@@ -43,6 +44,8 @@ which is the same as
 .. literalinclude:: code-frags/standalone-examples/instantiation/simpleInvoke.js
     :language: javascript 
     :lines: 2-3,6
+    :start-after: pre-simpleInvoke
+    :end-before: post-simpleInvoke
     :linenos:
     :dedent: 2
 
@@ -52,7 +55,8 @@ You define properties on objects like so:
 
 .. literalinclude:: code-frags/standalone-examples/instantiation/simpleInvoke.js
     :language: javascript 
-    :lines: 2-3,8-11
+    :start-after: pre-simpleInvokeWithPropertiesNoType
+    :end-before: post-simpleInvokeWithPropertiesNoType
     :linenos:
     :dedent: 2
 
@@ -60,7 +64,8 @@ Which is the same as:
 
 .. literalinclude:: code-frags/standalone-examples/instantiation/simpleInvoke.js
     :language: javascript 
-    :lines: 2-3,13-17
+    :start-after: pre-simpleInvokeWithProperties
+    :end-before: post-simpleInvokeWithProperties
     :linenos:
     :dedent: 2
 
@@ -75,7 +80,8 @@ Here is an example using a classical constructor function:
 
 .. literalinclude:: code-frags/standalone-examples/instantiation/constructorInvoke.js
     :language: javascript 
-    :lines: 2-17
+    :start-after: pre-constructorInvoke
+    :end-before: post-constructorInvoke
     :linenos:
     :dedent: 2
 
@@ -83,7 +89,8 @@ Here is the same example using an ES6 class definition:
 
 .. literalinclude:: code-frags/standalone-examples/instantiation/es6Invoke.js
     :language: javascript 
-    :lines: 2-19
+    :start-after: pre-es6Invoke
+    :end-before: post-es6Invoke
     :linenos:
     :dedent: 2
 
@@ -92,7 +99,8 @@ Nested objects
 
 .. literalinclude:: code-frags/standalone-examples/instantiation/nestedObjectsInvoke.js
     :language: javascript 
-    :lines: 21-33
+    :start-after: pre-nestedObjectsInvoke
+    :end-before: post-nestedObjectsInvoke
     :linenos:
     :dedent: 2
 
@@ -104,7 +112,8 @@ Atom can also create instances of objects that use other objects
 
 .. literalinclude:: code-frags/standalone-examples/instantiation/objectPrototypeInvoke.js
     :language: javascript 
-    :lines: 2-23
+    :start-after: pre-objectPrototypeInvoke
+    :end-before: post-objectPrototypeInvoke
     :linenos:
     :dedent: 2
 
@@ -117,7 +126,8 @@ methods and have access to ``this``.
 
 .. literalinclude:: code-frags/standalone-examples/properties.js
     :language: javascript 
-    :lines: 2-22
+    :start-after: pre-objectWithMethod
+    :end-before: post-objectWithMethod
     :linenos:
     :dedent: 2
 
@@ -128,7 +138,8 @@ Properties can be defined as simple fieldname / value pairs:
 
 .. literalinclude:: code-frags/standalone-examples/properties.js
     :language: javascript 
-    :lines: 33-35
+    :start-after: pre-keyValueProperty
+    :end-before: post-keyValueProperty
     :linenos:
     :dedent: 2
 
@@ -138,9 +149,186 @@ Javascript's `Object.defineProperty
 
 .. literalinclude:: code-frags/standalone-examples/properties.js
     :language: javascript
-    :lines: 37-45
+    :start-after: pre-dynamicProperty
+    :end-before: post-dynamicProperty
     :linenos:
     :dedent: 2
+
+Property Path Assignment
+************************
+
+If an object is being instantiated that has a property that is itself an object,
+Atom allows you "reach" into those nested objects in order to initialize them 
+using property paths. Property paths are denoted by prefixing the path with the
+``$`` leader character.
+
+.. literalinclude:: code-frags/standalone-examples/property-paths.js
+    :language: javascript
+    :start-after: pre-propertyObjectPath
+    :end-before: post-propertyObjectPath
+    :linenos:
+    :dedent: 2
+
+The resulting object in the above code should then look like:
+
+.. code-block:: javascript
+
+    {
+      foo: {
+        a: 0,
+        b: 1,
+        c: {
+          d: 3
+        }
+      }
+    }
+
+Atom also allows for bracket notation in property paths in addition to dot
+notation (as well as intermixing of the two). As such, the following
+example is equivalent to the previous:
+
+.. literalinclude:: code-frags/standalone-examples/property-paths.js
+    :language: javascript
+    :start-after: pre-propertyObjectPathBracketNotation
+    :end-before: post-propertyObjectPathBracketNotation
+    :linenos:
+    :dedent: 2
+
+Arrays are also supported:
+
+.. literalinclude:: code-frags/standalone-examples/property-paths.js
+    :language: javascript
+    :start-after: pre-propertyArrayPath
+    :end-before: post-propertyArrayPath
+    :linenos:
+    :dedent: 2
+
+With the resulting object looking as follows:
+
+.. code-block:: javascript
+
+    {
+      bar: [0, 1, [3]]
+    }
+
+If the leading key in the path happens to start with one or more leader
+characters (e.g., ``$foo``), Atom allows you to escape these characters by
+repeating them (much like ``%`` in ``printf``):
+
+.. literalinclude:: code-frags/standalone-examples/property-paths.js
+    :language: javascript
+    :start-after: pre-propertyPathLeaderEscape
+    :end-before: post-propertyPathLeaderEscape
+    :linenos:
+    :dedent: 2
+
+The resulting object should then look like:
+
+.. code-block:: javascript
+
+    {
+      $foo: {
+        a: 0,
+        b: 1,
+        c: {
+          $$d: 2
+        }
+      }
+    }
+
+It should be noted that subsequent keys in the path will not have leader
+characters escaped (e.g., ``$$d`` in the previous example). Additionally, if a
+key starts with ``$`` but is not a path (i.e., does not contain ``.`` or
+``[]``), it will not be escaped.
+
+$merge
+******
+
+In addition to property path assignment, Atom also supports merging objects on
+initialization using the ``$merge`` operator:
+
+.. literalinclude:: code-frags/standalone-examples/operators.js
+    :language: javascript
+    :start-after: pre-merge
+    :end-before: post-merge
+    :linenos:
+    :dedent: 2
+
+The resulting object will then look like:
+
+.. code-block:: javascript
+
+    {
+      foo: {
+        a: 0,
+        b: 1,
+        c: {
+          f: 4
+        },
+        g: 5
+    }
+
+If the ``c`` property does not look like what you would expect (e.g., ``{d: 2,
+e: 3, f: 4}``), this is intentional. The ``$merge`` operator performs a
+"shallow" merge, overwriting any properties that you merge in. If a deeper merge
+is required, ``$merge`` can be chained:
+
+.. literalinclude:: code-frags/standalone-examples/operators.js
+    :language: javascript
+    :start-after: pre-mergeChain
+    :end-before: post-mergeChain
+    :linenos:
+    :dedent: 2
+
+The resulting object will now reflect the deeper merge:
+
+.. code-block:: javascript
+
+    {
+      bar: {
+        a: 0,
+        b: 1,
+        c: {
+          d: 2,
+          e: 3,
+          f: 4
+        },
+        g: 5
+      }
+    }
+
+It should be noted that the ``$merge`` operator will only apply if it is the
+sole property in the object:
+
+.. literalinclude:: code-frags/standalone-examples/operators.js
+    :language: javascript
+    :start-after: pre-noMerge
+    :end-before: post-noMerge
+    :linenos:
+    :dedent: 2
+
+In this case, the ``baz`` property will simply be overwritten:
+
+.. code-block:: javascript
+
+    {
+      baz: {
+        $merge: {
+          c: {
+            f: 4
+          },
+          g: 5
+        },
+        h: 6
+      }
+    }
+
+..
+    $delete
+    *******
+    
+    $multiop
+    ********
 
 Object lifecycle and _init
 **************************
@@ -161,7 +349,8 @@ Example using ``_init``:
 
 .. literalinclude:: code-frags/standalone-examples/properties.js
     :language: javascript
-    :lines: 56-63
+    :start-after: pre-lifecycleInit
+    :end-before: post-lifecycleInit
     :linenos:
     :dedent: 2
 
@@ -175,7 +364,8 @@ by a module:
 
 .. literalinclude:: code-frags/standalone-examples/components.js
     :language: javascript
-    :lines: 5-19
+    :start-after: pre-component
+    :end-before: post-component
     :linenos:
     :dedent: 4
 
@@ -190,7 +380,8 @@ which comes as part of Carbon.io's Bond package.
 
 .. literalinclude:: code-frags/standalone-examples/components.js
     :language: javascript
-    :lines: 34-41
+    :start-after: pre-componentReference
+    :end-before: post-componentReference
     :linenos:
     :dedent: 4
 

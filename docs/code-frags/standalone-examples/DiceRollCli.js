@@ -1,6 +1,6 @@
 var o = require('carbon-io').atom.o(module)
 
-module.exports = o.main({ // Note the .main here since this is the main 
+module.exports = o.main({ // Note the .main here since this is the main
                           // application
   verbose: false,
 
@@ -23,11 +23,11 @@ module.exports = o.main({ // Note the .main here since this is the main
       flag: true,
       help: "Log verbose output.",
       required: false,
-      property: true // Will result in this.verbose having the value passed 
+      property: true // Will result in this.verbose having the value passed
                      // at the cmdline
     }
   },
-    
+
   _main: function(options) {
     if (this.verbose) {
       console.log("Here is the input")
@@ -42,7 +42,7 @@ module.exports = o.main({ // Note the .main here since this is the main
       // Random integer between 1 and numSides
       result.push(Math.floor(Math.random() * numSides + 1))
     }
-    
+
     console.log(result)
   }
 })

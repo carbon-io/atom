@@ -4,7 +4,7 @@ var __ = require('@carbon-io/fibers').__(module)
 var _o = require('@carbon-io/bond')._o(module)
 var testtube = require('@carbon-io/test-tube')
 
-var o = require('../../../../lib/atom').o(module)
+var o = require('../../../../lib').o(module)
 
 __(function() {
   module.exports = o.main({
@@ -22,7 +22,7 @@ __(function() {
      * description
      */
     description: 'Standalone examples tests',
-    
+
     /**********************************************************************
      * setup
      */
@@ -42,6 +42,8 @@ __(function() {
       _o('./instantiation-tests'),
       _o('./properties-tests'),
       _o('./components-tests'),
+      _o('./operators-tests'),
+      _o('./property-paths-tests'),
       _o('./cli-tests')
     ]
   })
