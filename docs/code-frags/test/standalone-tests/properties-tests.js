@@ -43,7 +43,7 @@ __(function() {
         name: 'DynamicPropertyTest',
         setup: function() {
           this.now = new Date()
-          this.clock = sinon.useFakeTimers(Date.now(), 'Date')
+          this.clock = sinon.useFakeTimers(this.now.getTime(), 'Date')
         },
         teardown: function() {
           this.clock.restore()

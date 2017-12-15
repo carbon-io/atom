@@ -43,7 +43,7 @@ __(function() {
         name: 'SetTests',
         tests: [
           util.makeTest({
-            name: 'DotPathSetTest',
+            name: 'PropertyPathSetTest',
             doTest: function() {
               let _prototype = {
                 a: {
@@ -68,7 +68,7 @@ __(function() {
             }
           }),
           util.makeTest({
-            name: 'DotPathSetNonExistentPathTest',
+            name: 'PropertyPathSetNonExistentPathTest',
             doTest: function() {
               let _prototype = {
                 a: {
@@ -96,7 +96,7 @@ __(function() {
             }
           }),
           util.makeTest({
-            name: 'DotPathArrayIndexTest',
+            name: 'PropertyPathArrayIndexTest',
             doTest: function() {
               let _prototype = {
                 a: {
@@ -120,7 +120,7 @@ __(function() {
             }
           }),
           util.makeTest({
-            name: 'DotPathSparseArrayIndexTest',
+            name: 'PropertyPathSparseArrayIndexTest',
             doTest: function() {
               let _prototype = {
                 a: {
@@ -144,7 +144,7 @@ __(function() {
             }
           }),
           util.makeTest({
-            name: 'DotPathIntLikeStringsTreatedAsPropertiesTest',
+            name: 'PropertyPathIntLikeStringsTreatedAsPropertiesTest',
             description: 'Test the behavior of integer like strings (e.g., "01")',
             doTest: function() {
               let _prototype = {
@@ -171,7 +171,7 @@ __(function() {
             }
           }),
           util.makeTest({
-            name: 'DotPathArrayIndexIntoObjectTest',
+            name: 'PropertyPathArrayIndexIntoObjectTest',
             doTest: function() {
               let _prototype = {
                 a: {
@@ -201,7 +201,7 @@ __(function() {
             }
           }),
           util.makeTest({
-            name: 'DotPathStringIndexThrowsTest',
+            name: 'PropertyPathStringIndexThrowsTest',
             doTest: function() {
               let _prototype = {
                 a: {
@@ -220,7 +220,7 @@ __(function() {
             }
           }),
           util.makeTest({
-            name: 'DotPathLeaderCharaterNonDotPathTest',
+            name: 'PropertyPathLeaderCharaterNonPropertyPathTest',
             description: 'Test that a leader character followed by a non property path is ' +
                          'not interpreted as a property path',
             doTest: function() {
@@ -241,7 +241,7 @@ __(function() {
             }
           }),
           util.makeTest({
-            name: 'DotPathLeaderCharaterEscapeNonDotPathTest',
+            name: 'PropertyPathLeaderCharaterEscapeNonPropertyPathTest',
             description: 'Test that an even number of leader characters (e.g., "$") does not' +
                          'does not get interpreted as a property path.',
             doTest: function() {
@@ -267,7 +267,7 @@ __(function() {
             }
           }),
           util.makeTest({
-            name: 'DotPathLeaderCharaterEscapeTest',
+            name: 'PropertyPathLeaderCharaterEscapeTest',
             description: 'Test that an odd number of leader characters (e.g., "$") gets ' +
                          'interpreted as a property path with trailing leader characters ' +
                          'escaped properly.',
@@ -298,7 +298,7 @@ __(function() {
             }
           }),
           util.makeTest({
-            name: 'DotPathLeaderCharaterInPathTreatedLiterallyTest',
+            name: 'PropertyPathLeaderCharaterInPathTreatedLiterallyTest',
             description: 'Test that a property name with leader characters in the ' +
                          'property path is treated literally',
             doTest: function() {
@@ -543,7 +543,7 @@ __(function() {
             }
           }),
           util.makeTest({
-            name: 'DotPathInnerMergeTest',
+            name: 'PropertyPathInnerMergeTest',
             description: 'Test dot notation $merge',
             doTest: function() {
               let _prototype = {
@@ -580,7 +580,7 @@ __(function() {
             }
           }),
           util.makeTest({
-            name: 'DotPathInnerMergeNonExistentPathTest',
+            name: 'PropertyPathInnerMergeNonExistentPathTest',
             description: 'Test dot notation $merge on non existent path',
             doTest: function() {
               let _prototype = {
@@ -749,7 +749,7 @@ __(function() {
         name: 'PropertyTests',
         tests: [
           util.makeTest({
-            name: 'DotPathPropertyTest',
+            name: 'PropertyPathPropertyTest',
             doTest: function() {
               let _prototype = {
                 a: {
@@ -782,7 +782,7 @@ __(function() {
             }
           }),
           util.makeTest({
-            name: 'DotPathPropertyNonExistentPathTest',
+            name: 'PropertyPathPropertyNonExistentPathTest',
             doTest: function() {
               let _prototype = {
                 a: {
@@ -822,6 +822,191 @@ __(function() {
               assert.equal(_.keys(object.d.e).length, 0)
             }
           })
+        ]
+      }),
+      util.makeTest({
+        name: 'DeleteTests',
+        tests: [
+          util.makeTest({
+            name: 'SingleLevelDeleteTest',
+            doTest: function() {
+              let _prototype = {
+                a: 1,
+                b: 2,
+                c: {
+                  d: 3,
+                  e: 4
+                }
+              }
+              let object = o({
+                _type: _prototype,
+                c: {
+                  $delete: 'e'
+                }
+              })
+              assert.equal(object.c.d, 3)
+              assert.ok(_.isNil(object.c.e))
+            }
+          }),
+          util.makeTest({
+            name: 'SingleLevelMultiDeleteTest',
+            doTest: function() {
+              let _prototype = {
+                a: 1,
+                b: 2,
+                c: {
+                  d: 3,
+                  e: 4
+                }
+              }
+              let object = o({
+                _type: _prototype,
+                c: {
+                  $delete: ['d', 'e']
+                }
+              })
+              assert.ok(_.isNil(object.c.d))
+              assert.ok(_.isNil(object.c.e))
+            }
+          }),
+          util.makeTest({
+            name: 'PropertyPathDeleteTest',
+            doTest: function() {
+              let _prototype = {
+                a: 1,
+                b: 2,
+                c: {
+                  d: {
+                    e: 3,
+                    f: 4
+                  }
+                }
+              }
+              let object = o({
+                _type: _prototype,
+                '$c.d': {
+                  $delete: ['f']
+                }
+              })
+              util.isMatch(object, {
+                a: 1,
+                b: 2,
+                c: {
+                  d: {
+                    e: 3
+                  }
+                }
+              })
+              assert.ok(_.isNil(object.c.d.f))
+            }
+          }),
+        ]
+      }),
+      util.makeTest({
+        name: 'MultiOpTests',
+        tests: [
+          util.makeTest({
+            name: 'SingleLevelMultiOpTest',
+            doTest: function() {
+              let _prototype = {
+                a: 1,
+                b: 2,
+                c: {
+                  d: 3,
+                  e: 4
+                }
+              }
+              let object = o({
+                _type: _prototype,
+                c: {
+                  $multiop: [
+                    {$delete: 'e'},
+                    {$merge: {f: 5, g: 6}}
+                  ]
+                }
+              })
+              util.isMatch(object, {
+                a: 1,
+                b: 2,
+                c: {
+                  d: 3,
+                  f: 5,
+                  g: 6,
+                }
+              })
+              assert.ok(_.isNil(object.c.e))
+            }
+          }),
+          util.makeTest({
+            name: 'SingleLevelMultiOpSetOverrideTest',
+            doTest: function() {
+              let _prototype = {
+                a: 1,
+                b: 2,
+                c: {
+                  d: 3,
+                  e: 4
+                }
+              }
+              let object = o({
+                _type: _prototype,
+                c: {
+                  $multiop: [
+                    {$delete: 'e'},
+                    {$merge: {f: 5, g: 6}},
+                    {h: 7}
+                  ]
+                }
+              })
+              util.isMatch(object, {
+                a: 1,
+                b: 2,
+                c: {
+                  h: 7
+                }
+              })
+              assert.ok(_.isNil(object.c.d))
+              assert.ok(_.isNil(object.c.e))
+              assert.ok(_.isNil(object.c.f))
+              assert.ok(_.isNil(object.c.g))
+            }
+          }),
+          util.makeTest({
+            name: 'PropertyPathMultiOpTest',
+            doTest: function() {
+              let _prototype = {
+                a: 1,
+                b: 2,
+                c: {
+                  d: {
+                    e: 3,
+                    f: 4
+                  }
+                }
+              }
+              let object = o({
+                _type: _prototype,
+                '$c.d': {
+                  $multiop: [
+                    {$delete: 'e'},
+                    {$merge: {g: 5, h: 6}}
+                  ]
+                }
+              })
+              util.isMatch(object, {
+                a: 1,
+                b: 2,
+                c: {
+                  d: {
+                    f: 4,
+                    g: 5,
+                    h: 6,
+                  }
+                }
+              })
+              assert.ok(_.isNil(object.c.d.e))
+            }
+          }),
         ]
       })
     ]
