@@ -55,6 +55,47 @@ __(function() {
             }
           })
         }
+      }),
+      o({
+        _type: testtube.Test,
+        name: 'DeleteTest',
+        doTest: function() {
+          var {foo, bar, baz} = this.parent.mod.delete()
+          assert.deepEqual(foo, {
+            foo: {
+              a: 0,
+              b: 1
+            }
+          })
+          assert.deepEqual(bar, {
+            bar: {
+              b: 1
+            }
+          })
+          assert.deepEqual(baz, {
+            baz: {
+              $delete: 'a',
+              $merge: {h: 6}
+            }
+          })
+        }
+      }),
+      o({
+        _type: testtube.Test,
+        name: 'MultiOpTest',
+        doTest: function() {
+          var {foo} = this.parent.mod.multiop()
+          assert.deepEqual(foo, {
+            foo: {
+              b: 1,
+              c: {
+                d: 2,
+                e: 3
+              },
+              h: 6
+            }
+          })
+        }
       })
     ]
   })

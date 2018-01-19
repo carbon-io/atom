@@ -323,12 +323,101 @@ In this case, the ``baz`` property will simply be overwritten:
       }
     }
 
-..
-    $delete
-    *******
-    
-    $multiop
-    ********
+$delete
+*******
+
+The ``$delete`` operator allows deletion of properties on initialization. For
+example, the following code deletes the ``c`` property:
+
+.. literalinclude:: code-frags/standalone-examples/operators.js
+    :language: javascript
+    :start-after: pre-delete
+    :end-before: post-delete
+    :linenos:
+    :dedent: 2
+
+The resulting object will then look like:
+
+.. code-block:: javascript
+
+    {
+      foo: {
+        a: 0,
+        b: 1
+      }
+    }
+
+Additionally, multiple properties can be deleted by simply listing them:
+
+.. literalinclude:: code-frags/standalone-examples/operators.js
+    :language: javascript
+    :start-after: pre-deleteList
+    :end-before: post-deleteList
+    :linenos:
+    :dedent: 2
+
+Results in the following object being returned:
+
+.. code-block:: javascript
+
+    {
+      bar: {
+        b: 1
+      }
+    }
+
+Note, just like the ``$merge`` operator, the ``$delete`` operator will be
+applied if it is the only property in the object:
+
+.. literalinclude:: code-frags/standalone-examples/operators.js
+    :language: javascript
+    :start-after: pre-noDelete
+    :end-before: post-noDelete
+    :linenos:
+    :dedent: 2
+
+Will result in the following:
+
+.. code-block:: javascript
+
+    {
+      baz: {
+        $delete: 'a',
+        h: 6
+      }
+    }
+
+$multiop
+********
+
+Finally, the ``$multiop`` operator allows one to apply multiple operations in
+order:
+
+.. literalinclude:: code-frags/standalone-examples/operators.js
+    :language: javascript
+    :start-after: pre-multiop
+    :end-before: post-multiop
+    :linenos:
+    :dedent: 2
+
+Will yield:
+
+.. code-block:: javascript
+
+    {
+      foo: {
+        b: 1,
+        c: {
+          d: 2,
+          e: 3
+        },
+        h: 6
+      }
+    }
+
+Again, the ``$multiop`` operator is subject to the same restrictions as both
+``$merge`` and ``$delete``, and will only be applied if it is the sole property
+in the object.
 
 Object lifecycle and _init
 **************************
