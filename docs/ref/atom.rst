@@ -60,5 +60,5 @@ Properties
        :type: :class:`~atom.ObjectInstantiationFunctionMain`
        :required:
 
-       
+       The main version of the object instantiation function
 
