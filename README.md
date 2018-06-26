@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/carbon-io/carbon-client-node.svg?branch=master)](https://travis-ci.org/carbon-io/carbon-client-node)
+[![Build Status](https://travis-ci.org/carbon-io/atom.svg?branch=master)](https://travis-ci.org/carbon-io/carbon-client-node)
 
 o({})
 ==========
